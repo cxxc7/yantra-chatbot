@@ -1,0 +1,439 @@
+SKU,Machine brand,Machine model,Breaker model,Synonym,Carrier machine tonnage,Breaker weight ( KG ),Chisel dia ( mm ),Pin Size,Impact in Joules,Primary application,Other applications,notes,Minimum price w/o piping kit,Price without GST,GST,Price including GST,Stock available
+SKU00213749,SANY,SY20,VJ20 HD,SB20,2-3 Ton,180,45,30,700-1200,Construction / Demolition,"Trenching , Demolition, Wells",Ideal for small-midsize sites; compact excavators,"117,000","128,500",18%,151630,Yes
+SKU00213749,TATA HITACHI,TMX 20 Neo,VJ20 HD,SB20,2-3 Ton,180,45,30,700-1200,Construction / Demolition,"Trenching , Demolition, Wells",Ideal for small-midsize sites; compact excavators,"117,000","128,500",18%,151630,Yes
+SKU00213749,SANY,SY18C T4F,VJ20 HD,SB20,2-3 Ton,180,45,30,700-1200,Construction / Demolition,"Trenching , Demolition, Wells",Ideal for small-midsize sites; compact excavators,"117,000","128,500",18%,151630,Yes
+SKU00213749,CATERPILLAR,301.7,VJ20 HD,SB20,2-3 Ton,180,45,30,700-1200,Construction / Demolition,"Trenching , Demolition, Wells",Ideal for small-midsize sites; compact excavators,"117,000","128,500",18%,151630,Yes
+SKU00213749,CATERPILLAR,301.7CR,VJ20 HD,SB20,2-3 Ton,180,45,30,700-1200,Construction / Demolition,"Trenching , Demolition, Wells",Ideal for small-midsize sites; compact excavators,"117,000","128,500",18%,151630,Yes
+SKU00213749,SANY,SY16C T4F,VJ20 HD,SB20,2-3 Ton,180,45,30,700-1200,Construction / Demolition,"Trenching , Demolition, Wells",Ideal for small-midsize sites; compact excavators,"117,000","128,500",18%,151630,Yes
+SKU00213749,SANY,SY18,VJ20 HD,SB20,2-3 Ton,180,45,30,700-1200,Construction / Demolition,"Trenching , Demolition, Wells",Ideal for small-midsize sites; compact excavators,"117,000","128,500",18%,151630,Yes
+SKU00213749,SANY,SY16,VJ20 HD,SB20,2-3 Ton,180,45,30,700-1200,Construction / Demolition,"Trenching , Demolition, Wells",Ideal for small-midsize sites; compact excavators,"117,000","128,500",18%,151630,Yes
+SKU00213749,JCB,JS300,VJ20 HD,SB20,2-3 Ton,180,45,30,700-1200,Construction / Demolition,"Trenching , Demolition, Wells",Ideal for small-midsize sites; compact excavators,"117,000","128,500",18%,151630,Yes
+SKU00213750,L&T KOMATSU,PC35,VJ30 HD,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,Trenching,General contractor jobs; utility work,"123,500","135,850",18%,160303,Yes
+SKU00213750,HYUNDAI,HX35ZA,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,HYUNDAI,R30,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,KOBELCO,SK30,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,KOBELCO,K-39,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,TATA HITACHI,VM30,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,JCB,JS35,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,KOBELCO,SK30SR-6,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,KOBELCO,SKSR30-6,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,SANY,SY27,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,BOBCAT,E27,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,CATERPILLAR,305 CR,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,CATERPILLAR,303E CR,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,CATERPILLAR,302.7CR,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,TATA HITACHI,ZAXIS 23U,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,CATERPILLAR,303.5 CR,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,SANY,SY26U T4F,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,SANY,SY26,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,CATERPILLAR,302,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,SANY,SY35,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,CATERPILLAR,302.7,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,KOBELCO,SK35SR,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,JCB,JS 30 PLUS,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,CATERPILLAR,303 CR,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,SANY,SY35U T4F,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,CATERPILLAR,303.5E2 CR,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,TATA HITACHI,ZX23,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,CATERPILLAR,302 CR,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,TATA HITACHI,ZAXIS 33U,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,JCB,JS30PLUS,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,JCB,JS30,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213750,JCB,1CX,VJ30,SB30,3-5 Ton,200,53,40,600-1100,Construction / Demolition,"Trenching, Quarry ",General contractor jobs; utility work,"130,000","143,000",18%,168740,Yes
+SKU00213744,L&T,491,VJ40 HD,SB40,5-6 Ton,375,68,45,450-700,Construction,"Road/RCC , Secondary Breaking",Good for thicker RCC & site prep,"234,000","257,500",18%,303850,No
+SKU00213744,BOBCAT,E60,VJ40 HD,SB40,5-6 Ton,375,68,45,450-700,Construction,"Road/RCC , Secondary Breaking",Good for thicker RCC & site prep,"234,000","257,500",18%,303850,No
+SKU00213744,JCB,35D,VJ40 HD,SB40,5-6 Ton,375,68,45,450-700,Construction,"Road/RCC , Secondary Breaking",Good for thicker RCC & site prep,"234,000","257,500",18%,303850,No
+SKU00213744,SANY,SY60C T4F,VJ40 HD,SB40,5-6 Ton,375,68,45,450-700,Construction,"Road/RCC , Secondary Breaking",Good for thicker RCC & site prep,"234,000","257,500",18%,303850,No
+SKU00213744,JCB,JS50,VJ40 HD,SB40,5-6 Ton,375,68,45,450-700,Construction,"Road/RCC , Secondary Breaking",Good for thicker RCC & site prep,"234,000","257,500",18%,303850,No
+SKU00213744,SANY,SY75C T4F,VJ40 HD,SB40,5-6 Ton,375,68,45,450-700,Construction,"Road/RCC , Secondary Breaking",Good for thicker RCC & site prep,"234,000","257,500",18%,303850,No
+SKU00213744,SANY,SY55,VJ40 HD,SB40,5-6 Ton,375,68,45,450-700,Construction,"Road/RCC , Secondary Breaking",Good for thicker RCC & site prep,"234,000","257,500",18%,303850,No
+SKU00213744,SANY,SY50,VJ40 HD,SB40,5-6 Ton,375,68,45,450-700,Construction,"Road/RCC , Secondary Breaking",Good for thicker RCC & site prep,"234,000","257,500",18%,303850,No
+SKU00213744,JCB,JS55 Z,VJ40 HD,SB40,5-6 Ton,375,68,45,450-700,Construction,"Road/RCC , Secondary Breaking",Good for thicker RCC & site prep,"234,000","257,500",18%,303850,No
+SKU00213744,SANY,SY50U T4F,VJ40 HD,SB40,5-6 Ton,375,68,45,450-700,Construction,"Road/RCC , Secondary Breaking",Good for thicker RCC & site prep,"234,000","257,500",18%,303850,No
+SKU00213744,CATERPILLAR,306 CR,VJ40 HD,SB40,5-6 Ton,375,68,45,450-700,Construction,"Road/RCC , Secondary Breaking",Good for thicker RCC & site prep,"234,000","257,500",18%,303850,No
+SKU00213744,JCB,JS51 R,VJ40 HD,SB40,5-6 Ton,375,68,45,450-700,Construction,"Road/RCC , Secondary Breaking",Good for thicker RCC & site prep,"234,000","257,500",18%,303850,No
+SKU00213744,JCB,JS 50Z,VJ40 HD,SB40,5-6 Ton,375,68,45,450-700,Construction,"Road/RCC , Secondary Breaking",Good for thicker RCC & site prep,"234,000","257,500",18%,303850,No
+SKU00213744,JCB,JS51,VJ40 HD,SB40,5-6 Ton,375,68,45,450-700,Construction,"Road/RCC , Secondary Breaking",Good for thicker RCC & site prep,"234,000","257,500",18%,303850,No
+SKU00213744,JCB,JS55,VJ40 HD,SB40,5-6 Ton,375,68,45,450-700,Construction,"Road/RCC , Secondary Breaking",Good for thicker RCC & site prep,"234,000","257,500",18%,303850,No
+SKU00213744,JCB,2DX,VJ40 HD,SB40,5-6 Ton,375,68,45,450-700,Construction,"Road/RCC , Secondary Breaking",Good for thicker RCC & site prep,"234,000","257,500",18%,303850,No
+SKU00213744,JCB,2CX,VJ40 HD,SB40,5-6 Ton,375,68,45,450-700,Construction,"Road/RCC , Secondary Breaking",Good for thicker RCC & site prep,"234,000","257,500",18%,303850,No
+SKU00213745,TATA HITACHI,NX80,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,No
+SKU00213745,HYUNDAI,HX85A,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,HYUNDAI,R80,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,L&T KOMATSU,PC81,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,BOBCAT,E64,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,KOMATSU,D65,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX ECO EXPERT,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,LIUGONG,CLG921,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,BOBCAT,E88,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,HYUNDAI,R85,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,CATERPILLAR,300.9,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,CATERPILLAR,307.5,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,SANY,SY60,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,TATA HITACHI,EX 70 Prime,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,CATERPILLAR,300.9D VPS,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,SANY,SY80U,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,TATA HITACHI,ZAXIS 80,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,HYUNDAI,R85A SMART,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,JS80,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,JS140,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,JS71,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,JS130,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,JS70,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,JS-7S,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,JS75,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,JS81,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX ecoXcellence,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3CX PRO,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3CX PLUS,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX 2005,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX PLUS,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX 2003 NEW,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX SUPER,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX Super ecoXcellence,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,4DX,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX 2013,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DXL,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX 2010 NM,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3CX,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX 2008,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX 2012,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3D,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX 2011,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX Xtra ecoXcellence,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX 2016,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,428C,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX BS3,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3D NM,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX 2003,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,4CX SUPER,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,4DX ecoXcellence,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,4CX,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX 2001,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX 2009 NM,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX 2015,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3DX( 2006-2008)WP,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213745,JCB,3D XL-2006,VJ43 HD,SB43,7-10 Ton,430,75,45,400-650,Construction,"Road/RCC, Secondary breaking",Bridge/site demolition & RCC,"250,000","275,000",18%,324500,Coming Soon 
+SKU00213748,CATERPILLAR,311D,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,KOBELCO,SK140 HDLC,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,KOBELCO,SK140 XDLC,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,TATA HITACHI,ZAXIS 130 SUPER,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,CASE,SR 150 B,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,CATERPILLAR,3516C,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,JCB,12.5TON,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,XCMG,XE 140I,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,TATA HITACHI,EX130 Super,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,XCMG,140,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,CATERPILLAR,120,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,LIUGONG,921DI,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,CATERPILLAR,313D2,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,VOLVO,EC140 DL,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,LIUGONG,926E HD,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,LIUGONG,922E DX,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,LINGONG,922E DX,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,XCMG,XE140,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,SANY,SY350LR,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,LIUGONG,939,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,TATA HITACHI,EX140,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,LIUGONG,Lingong150,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,BEML,BD155,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,BOBCAT,E165,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,BOBCAT,E145,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,LINGONG,CLG908,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,VOLVO,EC150,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,VOLVO,EC140B?RIME,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,LINGONG,CLG925C(88Z),VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,LINGONG,CLG915,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,LINGONG,CLG906,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,LINGONG,CLG920D(95Z),VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,LINGONG,CLG907,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,LINGONG,CLG915D,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,LINGONG,CLG922D(95Z),VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,LINGONG,Lingong150,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,LINGONG,CLG925D(93Z),VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,HYUNDAI,R130 SMART,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,SANY,SY95C T4F,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,JCB,JS NXT 245 HDLR,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,CATERPILLAR,313,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,VOLVO,EC120E,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,SANY,SY155H,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,CATERPILLAR,313D2L,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,SANY,SY155,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,JCB,JS NXT140,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,SANY,SY155W T4F,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,CATERPILLAR,313GC,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,CATERPILLAR,315GC,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,SANY,SY155U T4F,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,HYUNDAI,R245LR SMART PLUS,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,JCB,JS145,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,JCB,JS NXT 145 QUARRY MATER,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,JCB,JS NXT 150,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,KOBELCO,SK145XDLC,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,CATERPILLAR,317GC,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,TATA HITACHI,ZAXIS 140H,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,KOBELCO,SK145,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,KOBELCO,SK135SRL,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,DOOSAN,DX190W,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,JCB,JS110,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,JCB,JS160,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,JCB,JS140 SD,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,JCB,JS120,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,JCB,JS 130,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,JCB,JS150,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,JCB,JS145W,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213748,JCB,JS175,VJ50 HD,SB50,10-14 Ton,890,100,65,350-500,Demolition (heavy),Road/RCC,"Large structures, foundation/RCC","400,000","440,000",18%,519200,Yes
+SKU00213743,VOLVO,EC210DL,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,XCMG,XE215I K LC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,L&T KOMATSU,PC300LC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,HYUNDAI,HX225SL,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,HYUNDAI,HX220A,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,TATA HITACHI,EX215LC-SLR,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,SANY,SY240C-9HD,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,VOLVO,EC210,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,TATA HITACHI,EX 215 LC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,SANY,SY215C-9LC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,CASE,220,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,CASE,220 C,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,CASE,200 C,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,XCMG,XE220C,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,XCMG,XE250LC-K,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,HYUNDAI,HX225 SL,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,CATERPILLAR,320 E,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,HYUNDAI,HW210,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,TATA ZAXIS,EX200LC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS205SC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,CAT-GMMCO,21.7TON,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,KOBELCO,20TON,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,215,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,HYUNDAI,R210L Smart Plus,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,215LC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,CASE,220,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,TATA ZAXIS,220,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,KOMATSU,PC210LC-10M0,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS245 HDLR,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,KOMATSU,PC210LC-10MO,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,TATA HITACHI,ZAXIS 220LC GI,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,TATA HITACHI,ZX220LC-M,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,KOMATSU,PC210LC-10,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,KOMATSU,PC205,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,TATA HITACHI,ZX220LC-GI,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,KOMATSU,PC210-8MO,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,KOMATSU,PC210LC-8MO,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS215LC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,XCMG,210,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,SANY,SY230,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,HYUNDAI,R215L,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,HYUNDAI,R215LC-7,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,KOBELCO,SK220XDLC-10,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,XCMG,XE210I,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,SANY,SY225C-10HD,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,XCMG,XE210L,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,XCMG,XE210L,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS220LC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,TATA HITACHI,EX210 SUPER PLUS,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,TATA HITACHI,EX200 SUPER PLUS,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,DOOSAN,DX225LC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,KOBELCO,SK210 HDLC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,HYUNDAI,R220L,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,KOMATSU,PC210-10MO,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,XCMG,XE230,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,CATERPILLAR,323GC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,DOOSAN,DX-225LCB,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,L&T KOMATSU,PC-210-10MO,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS225LC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,HYUNDAI,R230,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,HYUNDAI,R240,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,L&T KOMATSU,PC230,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,VOLVO,EC220,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,LIUGONG,240,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,CASE,220,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,LIUGONG,220,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,VOLVO,EC210DBLC Prime,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,VOLVO,EC210DPrime,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,VOLVO,EC210D Prime,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,XCMG,XE230C,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,KOBELCO,SK210HDLC-8,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,VOLVO,EC210D BLC PRIME,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,KOMATSU,PC210LC-8,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,L&T KOMATSU,PC210LC-8,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,TATA HITACHI,EX200LC Super Plus,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,L&T KOMATSU,PC200,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,TATA HITACHI,ZX215,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,TATA HITACHI,EX200 Super,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,CATERPILLAR,CAT320C,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,DOOSAN,DX225NLCA,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,LINGONG,CLG205C(91Z),VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,LINGONG,CLG225C91Z),VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,LINGONG,CLG225(91Z),VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,LINGONG,CLG220LC(91Z),VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,LINGONG,CLG200(86Z),VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,LINGONG,CLG200-3(86Z),VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,SANY,SY215ACE,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,SANY,SY225C LC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,KOBELCO,SK221,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,CATERPILLAR,320D3,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,TATA HITACHI,EX215,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,SANY,SY240,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,HYUNDAI,R210 SMART PLUS,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS NXT 215 LC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,TATA HITACHI,ZAXIS 220LC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS225,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,CATERPILLAR,323,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,SANY,SY265C LC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,SANY,SY215C LC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,HYUNDAI,R215 SMART PLUS,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,KOMATSU,PC210LC-MO,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,L&T KOMATSU,PC210LC-MO,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,VOLVO,EC250,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,CATERPILLAR,320GC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,TATA HITACHI,EX 200LC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,SANY,SY265,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS 205,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,KOMATSU,PC210-MO,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,L&T KOMATSU,PC210-MO,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS NXT 205,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,CATERPILLAR,320D3 GC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS225LC ECO PLUS,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS245,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,KOBELCO,SK220XD/XDLC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,TATA HITACHI,EX 210LC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,CATERPILLAR,326,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,TATA HITACHI,EX 215LC-SLR,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,SANY,SY245,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,VOLVO,EC200D,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,SANY,SY225,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,CATERPILLAR,323D3,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,TATA HITACHI,EX 215 LCQ,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,SANY,SY220C-9,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,VOLVO,210BLC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,SANY,SY210C-9,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,DOOSAN,DX180LC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,KOBELCO,SK220LC IV STD,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,DOOSAN,DX210WA,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,KOBELCO,SK250LC ACERA,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,DOOSAN,DX225NLC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JC200,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS210,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS220,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS240,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,215,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS205LC,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS215,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS190,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS180,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,160W,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS220LC Xtra,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS200,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS205,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00213743,JCB,JS 200,VJ81 HD,SB81,16-25 Ton,1850,140,80,350-600,Quarry,Crushers,High-energy urban/industrial demo,"650,000","715,000",18%,843700,Yes
+SKU00284267,JCB,385LC,VJ131,SB131,25-35 Ton,2480,155,100,280-370,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,CATERPILLAR,336DLME,VJ131,SB131,25-35 Ton,2480,155,100,280-370,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,VOLVO,EC300 DL,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,KOMATSU,PC300LC,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,KOMATSU,PC300LC,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,HYUNDAI,HX 300,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,KOMATSU,PC350 LC-7,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,JCB,JS 345,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,JCB,345LC,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,KOMATSU,30TON,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,L&T KOMASTU,300,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,L&T KOMASTU,300,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,L&T KOMASTU,300,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,KOMATSU,PC-300LC-18,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,SANY,SY350,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,JCB,315LC,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,JCB,345LC HD,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,HYUNDAI,R340L,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,CATERPILLAR,CAT330,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,VOLVO,EC300DL,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,CATERPILLAR,352FXE,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,SANY,350 LC -9H,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,SANY,350 LC -9H,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,CATERPILLAR,CAT320 D2,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,L&T KOMATSU,CK300,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,CATERPILLAR,336,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,VOLVO,EC320,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,LIUGONG,CLG835,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,SANY,SY350C9,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,LIUGONG,Lingong300,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,JCB,JS350,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,VOLVO,EC290B?RIME,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,LINGONG,Lingong300,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,LINGONG,CLG936LC,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,SANY,SY365C?T4f?,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,CATERPILLAR,345GC,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,CATERPILLAR,335,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,TATA HITACHI,TL340H,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,SANY,SY305C LC,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,SANY,SY375H,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,KOMATSU,PC350LC-8M0,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,L&T KOMATSU,PC350LC-8M0,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,JCB,JS 380LC QUARRY,VJ131,SB131,25-35 Ton,2480,155,100,280-370,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,VOLVO,EC350,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,CATERPILLAR,3113,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,TATA HITACHI,ZAXIS 370LCH,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,CATERPILLAR,330GC,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,SANY,SY375,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,KOMATSU,PC300LC-8M0,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,L&T KOMATSU,PC300LC-8M0,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,SANY,SY335C,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,JCB,JS380LC XTRA,VJ131,SB131,25-35 Ton,2480,155,100,280-370,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,KOBELCO,SK290LC ACERA,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,JCB,JS 330,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,JCB,JS260,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,JCB,JS330,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,JCB,JS305,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,JCB,J350,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00284267,JCB,JS305LC,VJ121,SB121,25-35 Ton,2480,155,90,300-400,Quarry,Primary breaking ,,,"1,200,000",,1416000,Coming Soon 
+SKU00334020,JCB,385LC,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,Large excavators; primary breaking in hard rock,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,CATERPILLAR,336DLME,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,KOBELCO,SK380 XDLC-10,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,VOLVO,EC480DL,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,CATERPILLAR,349D,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,KOBELCO,SK520XDLC,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,HYUNDAI,HX 500,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,CATERPILLAR,336 GC,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,KOMATSU,PC 450 LC,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,HYUNDAI,R510 LC-7,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,SANY,SY500HD,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,L&T KOMASTU,PC380,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,L&T KOMASTU,PC380,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,TATA ZAXIS,ZAXIS 370 LCH,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,KOBELCO,SK520HD,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,KOMATSU,PC400-8R,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,SANY,SY350 LC-9H,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,KOBELCO,SK 380HDLC-8,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,CATERPILLAR,CAT 349D2L,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,KOMATSU,PC450LC-7,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,TATA HITACHI,ZAXIS 400MTH,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,KOBELCO,SK 380HDLC,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,TATA HITACHI,zx370LCH-GI,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,TATA HITACHI,ZX370LCH-GI,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,HYUNDAI,HX380,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,CATERPILLAR,CAT424B,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,CATERPILLAR,424,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,KOBELCO,SK520XDLC-10,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,L&T KOMATSU,PC450 LC-7,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,HYUNDAI,480LC-9S,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,HYUNDAI,HX 360L,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,DOOSAN,DX360,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,CATERPILLAR,395,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,TATA HITACHI,ZAXIS400,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,TATA HITACHI,ZAXIS470,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,XCMG,XE380C,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,CATERPILLAR,336D2L,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,BEML,BE400,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,BEML,D50,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,KOBELCO,SK380-8,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,KOBELCO,SK380-10,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,LINGONG,CLG936D,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,JCB,JS 380LC QUARRY,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,SANY,SY390H,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,SANY,SY390,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,KOBELCO,SK380XDLC,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,JCB,JS380LC XTRA,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,JCB,JS380,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,DOOSAN,S500LC-V,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,JCB,JS360,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
+SKU00334020,JCB,JS 460,VJ131,SB131,30-45 Ton,3100,165,100,280-370,Quarry,Primary breaking ,,"2,000,000","2,200,000",18%,2596000,Coming Soon 
