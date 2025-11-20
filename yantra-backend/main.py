@@ -1,5 +1,5 @@
 import os
-from typing import List, Literal, Dict, Any, Optional
+from typing import List, Literal, Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,29 +8,34 @@ from dotenv import load_dotenv
 
 import pandas as pd
 import chromadb
-from openai import OpenAI
-from openai import APIError
+import cohere
+from groq import Groq
 
 # ==========================
 # ENVIRONMENT
 # ==========================
 
 load_dotenv()
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+COHERE_API_KEY = os.getenv("COHERE_API_KEY")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 SUPPORT_PHONE = os.getenv("YANTRALIVE_SUPPORT_PHONE", "+91-9876543210")
 SUPPORT_EMAIL = os.getenv("YANTRALIVE_SUPPORT_EMAIL", "support@yantralive.com")
 
-if not OPENAI_API_KEY:
-    raise RuntimeError("Missing OPENAI_API_KEY in .env")
+if not COHERE_API_KEY:
+    raise RuntimeError("Missing COHERE_API_KEY in .env")
+if not GROQ_API_KEY:
+    raise RuntimeError("Missing GROQ_API_KEY in .env")
 
-client = OpenAI(api_key=OPENAI_API_KEY)
+co = cohere.Client(COHERE_API_KEY)
+groq_client = Groq(api_key=GROQ_API_KEY)
 
 # ==========================
 # FASTAPI
 # ==========================
 
 app = FastAPI(
-    title="YantraLive RAG Chatbot (OpenAI)",
+    title="YantraLive RAG Chatbot (Cohere + Groq)",
     version="1.0",
 )
 
@@ -65,23 +70,34 @@ class ChatResponse(BaseModel):
     from_fallback: bool = False
 
 # ==========================
-# OPENAI EMBEDDINGS
+# COHERE EMBEDDINGS
 # ==========================
 
-def embed_text(texts: List[str]) -> List[List[float]]:
+def embed_documents(texts: List[str]) -> List[List[float]]:
     """
-    Use OpenAI to embed a list of texts.
+    Use Cohere to embed dataset rows as 'search_document'.
     """
-    resp = client.embeddings.create(
-        model="text-embedding-3-small",
-        input=texts,
+    resp = co.embed(
+        texts=texts,
+        model="embed-english-v3.0",
+        input_type="search_document",
     )
-    # resp.data is a list of objects with .embedding
-    vectors: List[List[float]] = [d.embedding for d in resp.data]
-    return vectors
+    # resp.embeddings is a list of vectors
+    return resp.embeddings
+
+def embed_query(text: str) -> List[float]:
+    """
+    Use Cohere to embed user query as 'search_query'.
+    """
+    resp = co.embed(
+        texts=[text],
+        model="embed-english-v3.0",
+        input_type="search_query",
+    )
+    return resp.embeddings[0]
 
 # ==========================
-# LOAD CSV + INDEX
+# LOAD CSV + INDEX (Cohere embeddings -> Chroma)
 # ==========================
 
 DATA_FILE = "data/end_customer.csv"
@@ -98,21 +114,22 @@ def load_and_index():
     ids: List[str] = []
 
     for i, row in df.iterrows():
+        # Turn each row into a single text "col: value | col: value | ..."
         row_text = " | ".join([f"{col}: {row[col]}" for col in df.columns])
         documents.append(row_text)
         ids.append(f"row_{i}")
 
     try:
-        vectors = embed_text(documents)
+        vectors = embed_documents(documents)
         collection.add(
             ids=ids,
             documents=documents,
             embeddings=vectors,
         )
-        print(f"Indexed {len(documents)} rows using OpenAI embeddings.")
+        print(f"Indexed {len(documents)} rows using Cohere embeddings.")
     except Exception as e:
         # Do not crash the server if embedding fails; start with empty index
-        print(f"[WARN] Failed to embed/index dataset: {e}")
+        print(f"[WARN] Failed to embed/index dataset with Cohere: {e}")
         print("[WARN] Starting server without vector index; chat will fallback.")
 
 load_and_index()
@@ -130,62 +147,68 @@ def fallback() -> str:
     )
 
 # ==========================
-# OPENAI GENERATION (tries multiple models)
+# GROQ GENERATION (Llama 3.3)
 # ==========================
 
-MODEL_CANDIDATES = [
-    "gpt-4o-mini",  # fast, cheap
-    "gpt-4.1",      # more accurate
-]
+GROQ_MODEL_ID = "llama-3.3-70b-versatile"
 
-def generate_with_openai(prompt: str) -> Optional[str]:
+def generate_with_groq(context: str, user_question: str) -> Optional[str]:
     """
-    Try several OpenAI chat models in order.
-    If one fails, try the next.
-    If all fail, return None.
+    Use Groq's Llama 3.3 model to answer STRICTLY from context.
+    If answer not clearly in context, it should reply UNSURE_FROM_DATA.
     """
-    last_err: Optional[Exception] = None
+    system_prompt = (
+        "You are a strict RAG assistant for YantraLive END-CUSTOMER rock breaker data.\n"
+        "\n"
+        "GENERAL RULES:\n"
+        "- You MUST use ONLY the facts from the CONTEXT.\n"
+        "- If the answer is not clearly present in the CONTEXT, reply EXACTLY: UNSURE_FROM_DATA.\n"
+        "- Do NOT guess. Do NOT use outside knowledge.\n"
+        "- Answer clearly and in a structured way for the end customer.\n"
+        "\n"
+        "FOR COMPATIBILITY QUESTIONS (e.g., 'which breaker is compatible with SANY SY20', "
+        "'which all breakers work with Hyundai R30', 'show options for X machine'):\n"
+        "- Scan ALL lines in the CONTEXT.\n"
+        "- Identify EVERY row where the machine brand and/or machine model match the user question.\n"
+        "- Collect all DISTINCT compatible breaker models / SKUs from those rows.\n"
+        "- Return them as a BULLET LIST, one breaker per line.\n"
+        "- For each breaker, include key details if present: breaker model name, SKU, chisel diameter, "
+        "impact energy, and any important notes (like price or stock).\n"
+        "- Do NOT arbitrarily pick only one breaker if multiple are present; always show all relevant options.\n"
+        "\n"
+        "FOR SPECIFIC PARAMETER QUESTIONS (e.g., 'What is the chisel diameter for Hyundai R30?', "
+        "'What is the impact energy in joules for model VJ20 HD?'):\n"
+        "- Find the row(s) that match the machine/breaker mentioned.\n"
+        "- Extract the exact requested numeric or textual value from those row(s).\n"
+        "- If multiple rows give different values, mention each distinct value clearly.\n"
+        "\n"
+        "REMEMBER:\n"
+        "- Never invent breakers or values that are not present in the CONTEXT.\n"
+        "- If the machine or breaker mentioned is not present in the CONTEXT at all, reply UNSURE_FROM_DATA.\n"
+    )
 
-    for model_id in MODEL_CANDIDATES:
-        try:
-            print(f"[OPENAI] Trying model: {model_id}")
-            resp = client.chat.completions.create(
-                model=model_id,
-                messages=[
-                    {
-                        "role": "system",
-                        "content": (
-                            "You are a strict RAG assistant for YantraLive "
-                            "end-customer rock breaker data. "
-                            "Use ONLY the given context. "
-                            "If the answer is not clearly present, reply EXACTLY: UNSURE_FROM_DATA."
-                        ),
-                    },
-                    {
-                        "role": "user",
-                        "content": prompt,
-                    },
-                ],
-                temperature=0.0,
-            )
-            raw = resp.choices[0].message.content
-            if raw:
-                print(f"[OPENAI] Success with model: {model_id}")
-                return raw
-            else:
-                print(f"[OPENAI] Model {model_id} returned empty content.")
-        except APIError as e:
-            print(f"[OPENAI] APIError from model {model_id}: {e}")
-            last_err = e
-            continue
-        except Exception as e:
-            print(f"[OPENAI] Error from model {model_id}: {e}")
-            last_err = e
-            # for non-API errors, break to avoid spamming
-            break
+    user_content = f"""
+CONTEXT (rows from YantraLive END-CUSTOMER dataset):
+{context}
 
-    print(f"[OPENAI] All candidate models failed. Last error: {last_err}")
-    return None
+USER QUESTION:
+{user_question}
+"""
+
+    try:
+        resp = groq_client.chat.completions.create(
+            model=GROQ_MODEL_ID,
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_content},
+            ],
+            temperature=0.0,
+        )
+        answer = resp.choices[0].message.content
+        return answer
+    except Exception as e:
+        print(f"[GROQ ERROR] {e}")
+        return None
 
 # ==========================
 # ROUTES
@@ -204,11 +227,11 @@ def chat(req: ChatRequest):
     user_msg = req.messages[-1].content
     print(f"[CHAT] User message: {user_msg!r}")
 
-    # 1) Embed the query
+    # 1) Embed the query with Cohere
     try:
-        query_vec = embed_text([user_msg])[0]
+        query_vec = embed_query(user_msg)
     except Exception as e:
-        print(f"[ERROR] Failed to embed user query: {e}")
+        print(f"[ERROR] Failed to embed user query with Cohere: {e}")
         return ChatResponse(
             answer=fallback(),
             used_context=[],
@@ -219,7 +242,7 @@ def chat(req: ChatRequest):
     try:
         result = collection.query(
             query_embeddings=[query_vec],
-            n_results=5,
+            n_results=25,
         )
         docs = result["documents"][0] if result["documents"] else []
     except Exception as e:
@@ -240,19 +263,10 @@ def chat(req: ChatRequest):
 
     context = "\n\n---\n\n".join(docs)
 
-    # 3) Build prompt content (user side; system is in generate_with_openai)
-    prompt = f"""
-CONTEXT (rows from YantraLive end-customer dataset):
-{context}
-
-USER QUESTION:
-{user_msg}
-"""
-
-    # 4) Call OpenAI via helper (trying multiple model IDs)
-    raw = generate_with_openai(prompt)
+    # 3) Ask Groq to answer using this context
+    raw = generate_with_groq(context=context, user_question=user_msg)
     if raw is None:
-        # All model attempts failed -> human fallback
+        # Groq failed → human fallback
         return ChatResponse(
             answer=fallback(),
             used_context=docs,
@@ -261,7 +275,7 @@ USER QUESTION:
 
     raw = raw.strip()
 
-    # 5) Handle unsure case -> human fallback
+    # 4) If Groq says UNSURE_FROM_DATA → human fallback
     if "UNSURE_FROM_DATA" in raw:
         return ChatResponse(
             answer=fallback(),
@@ -269,7 +283,7 @@ USER QUESTION:
             from_fallback=True,
         )
 
-    # 6) Normal answer case
+    # 5) Normal answer
     return ChatResponse(
         answer=raw,
         used_context=docs,
