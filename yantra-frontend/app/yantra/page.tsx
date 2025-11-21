@@ -32,7 +32,7 @@ const API_BASE_URL =
 const SUGGESTED_QUESTIONS: string[] = [
   "What is the chisel diameter for Hyundai R30?",
   "Which breaker is compatible with SANY SY20?",
-  "Compare JCB and CAT breakers for 20-ton machines.",
+  "Compare JCB 3DX and Hyundai R30.",
   "Which is the best breaker option for Hyundai R30?",
 ];
 
@@ -68,6 +68,10 @@ export default function YantraChatPage() {
   const [theme, setTheme] = useState<Theme>("dark");
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
+  // refs to control scrolling
+  const messagesContainerRef = useRef<HTMLDivElement | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     setGreeting(getGreeting());
   }, []);
@@ -79,6 +83,24 @@ export default function YantraChatPage() {
       setTheme(stored);
     }
   }, []);
+
+  // scroll to bottom whenever messages change
+  useEffect(() => {
+    if (messagesContainerRef.current) {
+      setTimeout(() => {
+        try {
+          messagesContainerRef.current!.scrollTo({
+            top: messagesContainerRef.current!.scrollHeight,
+            behavior: "smooth",
+          });
+        } catch {
+          messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 50);
+    } else {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   const quickActions = useMemo(() => SUGGESTED_QUESTIONS, []);
 
@@ -95,6 +117,7 @@ export default function YantraChatPage() {
   const handleClearChat = () => {
     setMessages([]);
     setInput("");
+    textareaRef.current?.focus();
   };
 
   const handleCopy = (content: string) => {
@@ -128,6 +151,7 @@ export default function YantraChatPage() {
       };
       setMessages((prev) => [...prev, userMsg, botMsg]);
       setInput("");
+      textareaRef.current?.focus();
       return;
     }
 
@@ -176,6 +200,7 @@ export default function YantraChatPage() {
       };
 
       setMessages((prev) => [...prev, botMsg]);
+      textareaRef.current?.focus();
     } catch (err: any) {
       console.error(err);
       const errorMsg: Message = {
@@ -185,6 +210,7 @@ export default function YantraChatPage() {
         timestamp: formatTime(),
       };
       setMessages((prev) => [...prev, errorMsg]);
+      textareaRef.current?.focus();
     } finally {
       setLoading(false);
     }
@@ -197,6 +223,8 @@ export default function YantraChatPage() {
 
   const handleQuickQuestion = (q: string) => {
     if (loading) return;
+    // set input so user can edit quickly, but immediately send and focus
+    setInput("");
     void sendMessage(q);
   };
 
@@ -260,7 +288,7 @@ export default function YantraChatPage() {
       >
         <div className="flex flex-col">
           <h1 className="text-xl font-semibold tracking-tight">
-            YantraLive Assistant
+            YantraBuddy
           </h1>
           <p className={`text-xs ${headerSubText}`}>
             Answers only from your latest rock breaker, spare parts & dealer
@@ -323,17 +351,14 @@ export default function YantraChatPage() {
           </div>
 
           {/* Messages area – this is the scrollable part inside the fixed card */}
-          <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-3">
+          <div
+            ref={messagesContainerRef}
+            className="flex-1 min-h-0 overflow-y-auto p-4 space-y-3"
+          >
             {!hasMessages && (
-              <div className="text-xs text-slate-400 text-center mt-6">
+              <div className="text-lg font-medium text-slate-300 text-center mt-6">
                 Ask anything about breakers, machine compatibility, spare
                 parts, or dealers.
-                <div className="mt-3 text-slate-300">
-                  • “What is the chisel diameter for Hyundai R30?” <br />
-                  • “Which breaker is compatible with SANY SY20?” <br />
-                  • “Compare JCB and CAT breakers for 20-ton machines.” <br />
-                  • “Which is the best breaker option for my machine?”
-                </div>
               </div>
             )}
 
@@ -433,10 +458,12 @@ export default function YantraChatPage() {
               </div>
             ))}
 
+            {/* anchor for scrollIntoView fallback */}
+            <div ref={messagesEndRef} />
             {loading && (
               <div className="flex justify-start">
                 <div className="text-xs text-slate-400 px-3 py-2 bg-slate-800 rounded-xl border border-slate-700/60">
-                  Thinking based only on your YantraLive datasets…
+                  Thinking based on the YantraLive datasets…
                 </div>
               </div>
             )}
