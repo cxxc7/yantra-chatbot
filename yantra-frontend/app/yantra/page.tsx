@@ -1,6 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 type Role = "user" | "assistant";
 
@@ -8,6 +15,7 @@ interface Message {
   id: string;
   role: Role;
   content: string;
+  timestamp: string;
 }
 
 interface ChatApiResponse {
@@ -16,20 +24,118 @@ interface ChatApiResponse {
   from_fallback: boolean;
 }
 
-const API_BASE_URL = "http://127.0.0.1:8000";
+type Theme = "dark" | "light";
+
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000";
+
+const SUGGESTED_QUESTIONS: string[] = [
+  "What is the chisel diameter for Hyundai R30?",
+  "Which breaker is compatible with SANY SY20?",
+  "Compare JCB and CAT breakers for 20-ton machines.",
+  "Which is the best breaker option for Hyundai R30?",
+];
+
+const FOLLOW_UP_LINES: string[] = [
+  "Anything else I can help you with?",
+  "Want to compare any other models?",
+  "Need details on spare parts or dealers next?",
+];
+
+function getGreeting(): string {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good morning";
+  if (hour < 17) return "Good afternoon";
+  return "Good evening";
+}
+
+function randomFrom<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function formatTime(date: Date = new Date()): string {
+  return date.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
 export default function YantraChatPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [greeting, setGreeting] = useState("Hello");
+  const [theme, setTheme] = useState<Theme>("dark");
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const handleSend = async () => {
-    const trimmed = input.trim();
+  useEffect(() => {
+    setGreeting(getGreeting());
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const stored = window.localStorage.getItem("yantra-theme");
+    if (stored === "dark" || stored === "light") {
+      setTheme(stored);
+    }
+  }, []);
+
+  const quickActions = useMemo(() => SUGGESTED_QUESTIONS, []);
+
+  const toggleTheme = () => {
+    setTheme((prev) => {
+      const next: Theme = prev === "dark" ? "light" : "dark";
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem("yantra-theme", next);
+      }
+      return next;
+    });
+  };
+
+  const handleClearChat = () => {
+    setMessages([]);
+    setInput("");
+  };
+
+  const handleCopy = (content: string) => {
+    if (typeof navigator === "undefined" || !navigator.clipboard) return;
+    navigator.clipboard.writeText(content).catch((err) => {
+      console.error("Failed to copy", err);
+    });
+  };
+
+  const sendMessage = async (text: string) => {
+    const trimmed = text.trim();
     if (!trimmed) return;
+
+    const now = formatTime();
+    const lc = trimmed.toLowerCase();
+
+    // Only say "You're welcome" when user explicitly thanks
+    if (lc.includes("thank you") || lc.includes("thanks")) {
+      const userMsg: Message = {
+        id: crypto.randomUUID(),
+        role: "user",
+        content: trimmed,
+        timestamp: now,
+      };
+      const botMsg: Message = {
+        id: crypto.randomUUID(),
+        role: "assistant",
+        content:
+          "You're welcome! Anything else I can help you with today?",
+        timestamp: formatTime(),
+      };
+      setMessages((prev) => [...prev, userMsg, botMsg]);
+      setInput("");
+      return;
+    }
 
     const userMsg: Message = {
       id: crypto.randomUUID(),
       role: "user",
       content: trimmed,
+      timestamp: now,
     };
 
     const newMessages = [...messages, userMsg];
@@ -58,10 +164,15 @@ export default function YantraChatPage() {
 
       const data: ChatApiResponse = await res.json();
 
+      // Append a short "anything else" line to the same answer
+      const followup = randomFrom(FOLLOW_UP_LINES);
+      const combinedAnswer = `${data.answer.trim()}\n\n_${followup}_`;
+
       const botMsg: Message = {
         id: crypto.randomUUID(),
         role: "assistant",
-        content: data.answer,
+        content: combinedAnswer,
+        timestamp: formatTime(),
       };
 
       setMessages((prev) => [...prev, botMsg]);
@@ -71,6 +182,7 @@ export default function YantraChatPage() {
         id: crypto.randomUUID(),
         role: "assistant",
         content: `Error: ${err.message || "Something went wrong"}`,
+        timestamp: formatTime(),
       };
       setMessages((prev) => [...prev, errorMsg]);
     } finally {
@@ -78,43 +190,149 @@ export default function YantraChatPage() {
     }
   };
 
+  const handleSend = async () => {
+    if (loading) return;
+    await sendMessage(input);
+  };
+
+  const handleQuickQuestion = (q: string) => {
+    if (loading) return;
+    void sendMessage(q);
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       if (!loading) {
-        handleSend();
+        void handleSend();
       }
     }
   };
 
+  const hasMessages = messages.length > 0;
+
+  const rootClass =
+    theme === "dark"
+      ? "min-h-screen flex flex-col bg-slate-950 text-slate-100"
+      : "min-h-screen flex flex-col bg-slate-50 text-slate-900";
+
+  const headerBorder =
+    theme === "dark" ? "border-slate-800" : "border-slate-200";
+
+  const headerBg =
+    theme === "dark"
+      ? "bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950"
+      : "bg-white";
+
+  const headerSubText =
+    theme === "dark" ? "text-slate-400" : "text-slate-500";
+
+  const headerRightText =
+    theme === "dark" ? "text-slate-500" : "text-slate-500";
+
+  const cardClass =
+    theme === "dark"
+      ? "rounded-2xl border border-slate-800/80 bg-slate-900/60 shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
+      : "rounded-2xl border border-slate-200 bg-white shadow-[0_20px_40px_rgba(15,23,42,0.12)]";
+
+  const dividerBorder =
+    theme === "dark" ? "border-slate-800/80" : "border-slate-200";
+
+  const assistantBubbleClass =
+    theme === "dark"
+      ? "bg-slate-800/90 text-slate-100 border border-slate-700/60"
+      : "bg-slate-100 text-slate-900 border border-slate-200";
+
+  const timestampClass =
+    theme === "dark" ? "text-slate-500" : "text-slate-400";
+
+  const inputBorder =
+    theme === "dark" ? "border-slate-800" : "border-slate-300";
+
+  const inputBg =
+    theme === "dark" ? "bg-slate-900/80" : "bg-white";
+
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
-      <header className="border-b border-slate-800 px-4 py-3 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+    <div className={rootClass}>
+      {/* Header */}
+      <header
+        className={`border-b px-4 py-3 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between ${headerBorder} ${headerBg}`}
+      >
         <div className="flex flex-col">
-          <h1 className="text-lg font-semibold">
-            YantraLive End-Customer Assistant
+          <h1 className="text-xl font-semibold tracking-tight">
+            YantraLive Assistant
           </h1>
-          <p className="text-xs text-slate-400">
-            Answers only from the latest end-customer rock breaker dataset.
+          <p className={`text-xs ${headerSubText}`}>
+            Answers only from your latest rock breaker, spare parts & dealer
+            datasets.
           </p>
         </div>
-        <div className="text-[11px] text-slate-500 mt-1 sm:mt-0">
-          Backend: {API_BASE_URL}
+
+        <div className="flex items-center gap-3 mt-1 sm:mt-0 text-[11px]">
+          <span className={headerRightText}>
+            Backend: {API_BASE_URL}
+          </span>
+          {/* Theme toggle */}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="px-2 py-1 rounded-full border border-slate-500/40 bg-slate-900/10 text-xs hover:bg-slate-900/20 transition"
+          >
+            {theme === "dark" ? "☀️ Light" : "🌙 Dark"}
+          </button>
+          {/* Clear chat */}
+          <button
+            type="button"
+            onClick={handleClearChat}
+            className="px-2 py-1 rounded-full border border-red-500/60 bg-red-500/10 text-xs text-red-400 hover:bg-red-500/20 transition"
+          >
+            🧹 Clear
+          </button>
         </div>
       </header>
 
-      <main className="flex-1 flex flex-col max-w-4xl mx-auto w-full p-4 gap-4">
-        {/* Chat window */}
-        <section className="flex-1 flex flex-col border border-slate-800 rounded-xl bg-slate-900/40">
-          <div className="flex-1 overflow-y-auto p-3 space-y-3">
-            {messages.length === 0 && (
-              <div className="text-xs text-slate-400 text-center mt-10">
-                Ask anything about YantraLive rock breaker data, for example:
+      {/* Main – page height stays stable; chat card has fixed vh height */}
+      <main className="flex-1 flex flex-col max-w-4xl mx-auto w-full p-4">
+        <section
+          className={`${cardClass} w-full flex flex-col h-[82vh]`}
+        >
+          {/* Greeting + quick actions (always visible) */}
+          <div className={`p-4 border-b ${dividerBorder}`}>
+            <p className="text-sm font-medium">
+              {greeting}, welcome to YantraLive.
+            </p>
+            <p className="text-xs mt-1 text-slate-400">
+              {hasMessages
+                ? "What else would you like to check? You can also try these questions:"
+                : "How can I help you today? Here are some common questions:"}
+            </p>
+
+            {/* FAQ quick questions */}
+            <div className="mt-3 flex flex-wrap gap-2">
+              {quickActions.map((q) => (
+                <button
+                  key={q}
+                  type="button"
+                  onClick={() => handleQuickQuestion(q)}
+                  className="text-xs px-3 py-1 rounded-full border border-sky-500/60 bg-sky-900/40 hover:bg-sky-700/60 hover:border-sky-400 transition shadow-sm"
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Messages area – this is the scrollable part inside the fixed card */}
+          <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-3">
+            {!hasMessages && (
+              <div className="text-xs text-slate-400 text-center mt-6">
+                Ask anything about breakers, machine compatibility, spare
+                parts, or dealers.
                 <div className="mt-3 text-slate-300">
-                  • “Which breaker works with SANY SY20?” <br />
-                  • “What is the chisel diameter for VJ20 HD?” <br />
-                  • “What is the price including GST for SKU00213749?” <br />
-                  • “Is stock available for machine model TMX 20 Neo?”
+                  • “What is the chisel diameter for Hyundai R30?” <br />
+                  • “Which breaker is compatible with SANY SY20?” <br />
+                  • “Compare JCB and CAT breakers for 20-ton machines.” <br />
+                  • “Which is the best breaker option for my machine?”
                 </div>
               </div>
             )}
@@ -127,38 +345,120 @@ export default function YantraChatPage() {
                 }`}
               >
                 <div
-                  className={`max-w-[80%] rounded-xl px-3 py-2 text-sm whitespace-pre-wrap ${
-                    m.role === "user"
-                      ? "bg-sky-600 text-white"
-                      : "bg-slate-800 text-slate-100"
+                  className={`flex flex-col max-w-[80%] ${
+                    m.role === "user" ? "items-end" : "items-start"
                   }`}
                 >
-                  {m.content}
+                  <div
+                    className={`rounded-2xl px-3 py-2 text-sm whitespace-pre-wrap ${
+                      m.role === "user"
+                        ? "bg-sky-600 text-white shadow-md"
+                        : assistantBubbleClass
+                    }`}
+                  >
+                    {m.role === "assistant" ? (
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          table: ({ children }) => (
+                            <div className="overflow-x-auto my-2">
+                              <table className="text-xs border-collapse w-full">
+                                {children}
+                              </table>
+                            </div>
+                          ),
+                          th: (props) => (
+                            <th
+                              {...props}
+                              className="border border-slate-600 px-2 py-1 bg-slate-900 text-left"
+                            />
+                          ),
+                          td: (props) => (
+                            <td
+                              {...props}
+                              className="border border-slate-700 px-2 py-1 align-top"
+                            />
+                          ),
+                          ul: (props) => (
+                            <ul
+                              {...props}
+                              className="list-disc list-inside space-y-1"
+                            />
+                          ),
+                        }}
+                      >
+                        {m.content}
+                      </ReactMarkdown>
+                    ) : (
+                      m.content
+                    )}
+                  </div>
+
+                  {/* Timestamp + tiny actions */}
+                  <div className="mt-1 flex items-center justify-between w-full gap-2">
+                    <span
+                      className={`text-[10px] ${timestampClass}`}
+                    >
+                      {m.timestamp}
+                    </span>
+
+                    {m.role === "assistant" && (
+                      <div className="flex items-center gap-1 text-[10px] text-slate-500">
+                        <button
+                          type="button"
+                          onClick={() => handleCopy(m.content)}
+                          className="px-1 py-[1px] rounded-full border border-slate-600/60 hover:bg-slate-800/60"
+                          title="Copy reply"
+                        >
+                          📋
+                        </button>
+                        <button
+                          type="button"
+                          className="px-1 py-[1px] rounded-full border border-slate-600/60 hover:bg-slate-800/60"
+                          title="Like"
+                        >
+                          👍
+                        </button>
+                        <button
+                          type="button"
+                          className="px-1 py-[1px] rounded-full border border-slate-600/60 hover:bg-slate-800/60"
+                          title="Dislike"
+                        >
+                          👎
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
 
             {loading && (
               <div className="flex justify-start">
-                <div className="text-xs text-slate-400 px-3 py-2 bg-slate-800 rounded-xl">
-                  Thinking based only on your dataset…
+                <div className="text-xs text-slate-400 px-3 py-2 bg-slate-800 rounded-xl border border-slate-700/60">
+                  Thinking based only on your YantraLive datasets…
                 </div>
               </div>
             )}
           </div>
 
-          {/* Input area */}
+          {/* Input */}
           <form
-            className="border-t border-slate-800 p-2 flex gap-2"
+            className={`border-t p-3 flex gap-2 rounded-b-2xl flex-shrink-0 ${
+              dividerBorder
+            } ${
+              theme === "dark" ? "bg-slate-950/70" : "bg-slate-50"
+            }`}
             onSubmit={(e) => {
               e.preventDefault();
-              if (!loading) handleSend();
+              if (!loading) void handleSend();
             }}
           >
             <textarea
-              className="flex-1 text-sm rounded-lg border border-slate-800 bg-slate-950/60 p-2 resize-none outline-none focus:ring-1 focus:ring-sky-500"
+              ref={textareaRef}
+              className={`flex-1 text-sm rounded-xl border ${inputBorder} ${inputBg} p-2 resize-none outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500`}
               rows={2}
-              placeholder="Type your question about rock breakers, models, pricing, stock..."
+              placeholder="Type your question about breakers, machines, spare parts, dealers, pricing..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
@@ -166,7 +466,7 @@ export default function YantraChatPage() {
             <button
               type="submit"
               disabled={loading || !input.trim()}
-              className="text-sm px-4 py-2 rounded-lg border border-sky-500 bg-sky-600/80 hover:bg-sky-500 disabled:opacity-50 disabled:cursor-not-allowed transition self-end"
+              className="text-sm px-4 py-2 rounded-xl border border-sky-500 bg-sky-600 hover:bg-sky-500 disabled:opacity-50 disabled:cursor-not-allowed transition self-end shadow-md"
             >
               {loading ? "Sending..." : "Send"}
             </button>

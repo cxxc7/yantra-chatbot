@@ -1,4 +1,5 @@
 import os
+import time
 from typing import List, Literal, Optional
 
 from fastapi import FastAPI, HTTPException
@@ -36,7 +37,7 @@ groq_client = Groq(api_key=GROQ_API_KEY)
 
 app = FastAPI(
     title="YantraLive RAG Chatbot (Cohere + Groq)",
-    version="1.0",
+    version="1.1",
 )
 
 app.add_middleware(
@@ -51,7 +52,17 @@ app.add_middleware(
 # ==========================
 
 chroma_client = chromadb.Client()
-collection = chroma_client.create_collection(name="yantra_end_customer")
+
+# Separate collections for each dataset type
+end_customer_collection = chroma_client.create_collection(
+    name="yantra_end_customer"
+)
+spare_parts_collection = chroma_client.create_collection(
+    name="yantra_spare_parts"
+)
+dealer_collection = chroma_client.create_collection(
+    name="yantra_dealers"
+)
 
 # ==========================
 # Pydantic MODELS
@@ -82,7 +93,6 @@ def embed_documents(texts: List[str]) -> List[List[float]]:
         model="embed-english-v3.0",
         input_type="search_document",
     )
-    # resp.embeddings is a list of vectors
     return resp.embeddings
 
 def embed_query(text: str) -> List[float]:
@@ -100,24 +110,34 @@ def embed_query(text: str) -> List[float]:
 # LOAD CSV + INDEX (Cohere embeddings -> Chroma)
 # ==========================
 
-DATA_FILE = "data/end_customer.csv"
+DATA_DIR = "data"
+END_CUSTOMER_FILE = os.path.join(DATA_DIR, "end_customer.csv")
+SPARE_PARTS_FILE = os.path.join(DATA_DIR, "spare_parts.csv")
+DEALERS_FILE = os.path.join(DATA_DIR, "dealers.csv")
 
-def load_and_index():
-    if not os.path.exists(DATA_FILE):
-        raise RuntimeError(f"Dataset file not found at: {DATA_FILE}")
 
-    df = pd.read_csv(DATA_FILE)
+def load_and_index_one(path: str, collection, tag: str):
+    """
+    Generic loader: reads a CSV and indexes it into a given Chroma collection.
+    Each row becomes one text, prefixed with [TAG] to indicate dataset type.
+    """
+    if not os.path.exists(path):
+        print(f"[INFO] Dataset not found for {tag}: {path} (skipping)")
+        return
+
+    df = pd.read_csv(path)
     if df.empty:
-        raise RuntimeError("Dataset is empty")
+        print(f"[WARN] Dataset {tag} is empty: {path}")
+        return
 
     documents: List[str] = []
     ids: List[str] = []
 
     for i, row in df.iterrows():
-        # Turn each row into a single text "col: value | col: value | ..."
         row_text = " | ".join([f"{col}: {row[col]}" for col in df.columns])
-        documents.append(row_text)
-        ids.append(f"row_{i}")
+        # Tag so the model knows what kind of data it is
+        documents.append(f"[{tag}] {row_text}")
+        ids.append(f"{tag.lower()}_row_{i}")
 
     try:
         vectors = embed_documents(documents)
@@ -126,13 +146,23 @@ def load_and_index():
             documents=documents,
             embeddings=vectors,
         )
-        print(f"Indexed {len(documents)} rows using Cohere embeddings.")
+        print(f"Indexed {len(documents)} rows for {tag} using Cohere embeddings.")
     except Exception as e:
-        # Do not crash the server if embedding fails; start with empty index
-        print(f"[WARN] Failed to embed/index dataset with Cohere: {e}")
-        print("[WARN] Starting server without vector index; chat will fallback.")
+        print(f"[WARN] Failed to embed/index dataset {tag} with Cohere: {e}")
+        print("[WARN] Starting server without this vector index; chat may fallback.")
 
-load_and_index()
+
+def load_all_datasets():
+    load_and_index_one(END_CUSTOMER_FILE, end_customer_collection, "END_CUSTOMER")
+    time.sleep(10)  # small pause
+
+    load_and_index_one(SPARE_PARTS_FILE, spare_parts_collection, "SPARE_PARTS")
+    time.sleep(10)  # small pause
+
+    load_and_index_one(DEALERS_FILE, dealer_collection, "DEALERS")
+
+
+load_all_datasets()
 
 # ==========================
 # FALLBACK MESSAGE
@@ -152,19 +182,22 @@ def fallback() -> str:
 
 GROQ_MODEL_ID = "llama-3.3-70b-versatile"
 
+
 def generate_with_groq(context: str, user_question: str) -> Optional[str]:
     """
     Use Groq's Llama 3.3 model to answer STRICTLY from context.
     If answer not clearly in context, it should reply UNSURE_FROM_DATA.
     """
     system_prompt = (
-        "You are a strict RAG assistant for YantraLive END-CUSTOMER rock breaker data.\n"
+        "You are a strict RAG assistant for YantraLive END-CUSTOMER, SPARE PARTS, "
+        "and DEALER rock breaker data.\n"
         "\n"
         "GENERAL RULES:\n"
         "- You MUST use ONLY the facts from the CONTEXT.\n"
         "- If the answer is not clearly present in the CONTEXT, reply EXACTLY: UNSURE_FROM_DATA.\n"
         "- Do NOT guess. Do NOT use outside knowledge.\n"
-        "- Answer clearly and in a structured way for the end customer.\n"
+        "- Answer clearly, professionally, and in a structured way for the end customer.\n"
+        "- Respect the dataset tags [END_CUSTOMER], [SPARE_PARTS], [DEALERS] when reasoning.\n"
         "\n"
         "FOR COMPATIBILITY QUESTIONS (e.g., 'which breaker is compatible with SANY SY20', "
         "'which all breakers work with Hyundai R30', 'show options for X machine'):\n"
@@ -176,19 +209,37 @@ def generate_with_groq(context: str, user_question: str) -> Optional[str]:
         "impact energy, and any important notes (like price or stock).\n"
         "- Do NOT arbitrarily pick only one breaker if multiple are present; always show all relevant options.\n"
         "\n"
+        "FOR COMPARISON QUESTIONS (e.g., 'Compare JCB and CAT', 'Compare breaker A vs breaker B'):\n"
+        "- Start your answer with: 'Sure, here is a comparison between ... and ...:'\n"
+        "- Build a clean Markdown table using this format:\n"
+        "  | Feature | Option 1 | Option 2 |\n"
+        "  |--------|----------|----------|\n"
+        "  | ...    | ...      | ...      |\n"
+        "- Choose meaningful features from the CONTEXT such as machine model, breaker model, "
+        "impact energy, chisel diameter, price, stock, etc.\n"
+        "- Only include facts that are clearly present in the CONTEXT.\n"
+        "\n"
         "FOR SPECIFIC PARAMETER QUESTIONS (e.g., 'What is the chisel diameter for Hyundai R30?', "
         "'What is the impact energy in joules for model VJ20 HD?'):\n"
         "- Find the row(s) that match the machine/breaker mentioned.\n"
         "- Extract the exact requested numeric or textual value from those row(s).\n"
         "- If multiple rows give different values, mention each distinct value clearly.\n"
         "\n"
+        "FOR SUBJECTIVE/BEST-OPTION QUESTIONS (e.g., 'Which is the best model for X?', "
+        "'Which breaker is more suitable for Y machine?'):\n"
+        "- First, list all relevant options as a bullet list with their key specs.\n"
+        "- Then, based ONLY on the CONTEXT (features such as impact energy, recommended tonnage, "
+        "application type, or any hints in the data), choose ONE option as the best.\n"
+        "- Clearly say: 'According to the available data, the best option is <NAME> because ...'\n"
+        "- Do NOT invent reasons that are not supported by the CONTEXT.\n"
+        "\n"
         "REMEMBER:\n"
-        "- Never invent breakers or values that are not present in the CONTEXT.\n"
-        "- If the machine or breaker mentioned is not present in the CONTEXT at all, reply UNSURE_FROM_DATA.\n"
+        "- Never invent breakers, dealers, or spare parts that are not present in the CONTEXT.\n"
+        "- If the machine, breaker, part, or dealer mentioned is not present at all, reply UNSURE_FROM_DATA.\n"
     )
 
     user_content = f"""
-CONTEXT (rows from YantraLive END-CUSTOMER dataset):
+CONTEXT (rows from YantraLive datasets):
 {context}
 
 USER QUESTION:
@@ -238,30 +289,35 @@ def chat(req: ChatRequest):
             from_fallback=True,
         )
 
-    # 2) Retrieve similar rows from Chroma
-    try:
-        result = collection.query(
-            query_embeddings=[query_vec],
-            n_results=25,
-        )
-        docs = result["documents"][0] if result["documents"] else []
-    except Exception as e:
-        print(f"[ERROR] Failed to query Chroma: {e}")
-        return ChatResponse(
-            answer=fallback(),
-            used_context=[],
-            from_fallback=True,
-        )
+    # 2) Retrieve similar rows from all collections
+    docs: List[str] = []
+
+    def _query_collection(coll, label: str):
+        try:
+            result = coll.query(
+                query_embeddings=[query_vec],
+                n_results=10,  # enough to not miss alternatives
+            )
+            return result["documents"][0] if result["documents"] else []
+        except Exception as e:
+            print(f"[ERROR] Failed to query {label} collection: {e}")
+            return []
+
+    docs.extend(_query_collection(end_customer_collection, "END_CUSTOMER"))
+    docs.extend(_query_collection(spare_parts_collection, "SPARE_PARTS"))
+    docs.extend(_query_collection(dealer_collection, "DEALERS"))
 
     if not docs:
-        print("[CHAT] No relevant documents found in index.")
+        print("[CHAT] No relevant documents found in any index.")
         return ChatResponse(
             answer=fallback(),
             used_context=[],
             from_fallback=True,
         )
 
-    context = "\n\n---\n\n".join(docs)
+    # De-duplicate docs while preserving order
+    unique_docs = list(dict.fromkeys(docs))
+    context = "\n\n---\n\n".join(unique_docs)
 
     # 3) Ask Groq to answer using this context
     raw = generate_with_groq(context=context, user_question=user_msg)
@@ -269,7 +325,7 @@ def chat(req: ChatRequest):
         # Groq failed → human fallback
         return ChatResponse(
             answer=fallback(),
-            used_context=docs,
+            used_context=unique_docs,
             from_fallback=True,
         )
 
@@ -279,13 +335,13 @@ def chat(req: ChatRequest):
     if "UNSURE_FROM_DATA" in raw:
         return ChatResponse(
             answer=fallback(),
-            used_context=docs,
+            used_context=unique_docs,
             from_fallback=True,
         )
 
     # 5) Normal answer
     return ChatResponse(
         answer=raw,
-        used_context=docs,
+        used_context=unique_docs,
         from_fallback=False,
     )
