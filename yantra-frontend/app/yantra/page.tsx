@@ -334,26 +334,22 @@ export default function YantraChatPage() {
             YantraBuddy
           </h1>
           <p className={`text-xs ${headerSubText}`}>
-            Answers only from your latest rock breaker, spare parts & dealer
-            datasets.
+            Your source for everything on rock breakers, spare parts, and dealer insights.
           </p>
         </div>
 
         <div className="flex items-center gap-3 mt-1 sm:mt-0 text-[11px]">
-          <span className={headerRightText}>
-            Backend: {API_BASE_URL}
-          </span>
           <button
             type="button"
             onClick={toggleTheme}
-            className="px-2 py-1 rounded-full border border-slate-500/40 bg-slate-900/10 text-xs hover:bg-slate-900/20 transition"
+            className="px-3 py-2 rounded-full border border-slate-500/40 bg-slate-900/10 text-xs hover:bg-slate-900/20 transition"
           >
             {theme === "dark" ? "☀️ Light" : "🌙 Dark"}
           </button>
           <button
             type="button"
             onClick={handleClearChat}
-            className="px-2 py-1 rounded-full border border-red-500/60 bg-red-500/10 text-xs text-red-400 hover:bg-red-500/20 transition"
+            className="px-3 py-2 rounded-full border border-red-500/60 bg-red-500/10 text-xs text-red-400 hover:bg-red-500/20 transition"
           >
             🧹 Clear
           </button>
@@ -397,7 +393,7 @@ export default function YantraChatPage() {
             className="flex-1 min-h-0 overflow-y-auto p-4 space-y-3"
           >
             {!hasMessages && (
-              <div className="text-lg font-medium text-slate-300 text-center mt-6">
+              <div className="text-lg font-medium text-slate-300 text-center mt-20">
                 Ask anything about breakers, machine compatibility, spare
                 parts, or dealers.
               </div>
@@ -506,7 +502,7 @@ export default function YantraChatPage() {
             <textarea
               ref={textareaRef}
               className={`flex-1 text-sm rounded-xl border ${inputBorder} ${inputBg} p-2 resize-none outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500`}
-              rows={2}
+              rows={1}
               placeholder="Type your question about breakers, machines, spare parts, dealers, pricing..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
