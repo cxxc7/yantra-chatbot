@@ -60,17 +60,164 @@ function formatTime(date: Date = new Date()): string {
   });
 }
 
-// helper: bold parameter names in assistant content
+// helper: detect if a block of lines looks like a pipe-table
+function looksLikePipeTable(text: string): boolean {
+  // simple heuristic: at least two lines containing '|' and a header separator line with --- or ---|---
+  const lines = text.split("\n").map((l) => l.trim());
+  const pipeLines = lines.filter((l) => l.includes("|"));
+  if (pipeLines.length < 2) return false;
+  // check for a separator row like |---|---| or ---|--- pattern
+  for (const l of lines) {
+    if (/^(\|?\s*:?-+:?\s*\|)+\s*:?-+:?\s*\|?\s*$/.test(l)) return true;
+    if (/^-{3,}\s*\|/.test(l) || /\|\s*-{3,}/.test(l)) return true;
+  }
+  return false;
+}
+
+// helper: bold parameter names in assistant content (skip table rows)
 function boldParameterNames(content: string): string {
   if (!content) return content;
-  // For each line like "Key: value" -> "**Key**: value"
-  // Use multiline regex (handles lines inside run-on text too)
-  return content.replace(
-    /^(\s*)([A-Za-z0-9 _/()&%-]+):\s*(.+)$/gm,
-    (_match, indent, key, rest) => {
-      return `${indent}**${key.trim()}**: ${rest.trim()}`;
+  const lines = content.split(/\n/).map((line) => {
+    // If the line looks like a table row (contains |) - skip bolding
+    if (line.includes("|")) return line;
+    // Skip bullets or numbered lists to avoid breaking markdown list formatting
+    if (/^\s*([-*]|\d+\.)\s/.test(line)) return line;
+    // Bold "Key: value" patterns
+    return line.replace(
+      /^([A-Za-z0-9 _/()&%-]+):\s*(.+)$/g,
+      (_m, key, rest) => `**${key.trim()}**: ${rest.trim()}`
+    );
+  });
+  return lines.join("\n");
+}
+
+// helper: ensure certain headers start on their own line and split concatenated key:value pairs
+function preprocessAssistant(content: string): string {
+  if (!content) return content;
+
+  let out = content;
+
+  // Remove surrounding fenced code blocks if the whole message is wrapped (common when backend accidentally fences)
+  // But be careful: only strip if it's a single fenced block surrounding entire content.
+  const fencedMatch = out.match(/^\s*```(?:\w+)?\n([\s\S]*?)\n```s*$/);
+  if (fencedMatch) {
+    out = fencedMatch[1];
+  }
+
+  // Force newline after these headers if followed by text
+  const headerPatterns: RegExp[] = [
+    /(Compatible machines:)(?!\n)/i,
+    /(Here are the details[^\n]*?breaker model:)(?!\n)/i,
+    /(Here are the details[^\n]*?breaker:)(?!\n)/i,
+  ];
+  headerPatterns.forEach((pat) => {
+    out = out.replace(pat, (_m, g1) => `${g1}\n\n`); // blank line after header for markdown list separation
+  });
+
+  // If a line contains two key:value pairs back to back, insert newline before second key
+  // Example: "Breaker weight: 180 KG Price: 10000 INR" -> split before "Price:"
+  out = out.replace(
+    /(:\n[^\n]*?)(\b([A-Za-z][A-Za-z0-9 _/()&%-]{0,40}):\s)/g,
+    (m, before, secondKey) => {
+      return `${before}\n${secondKey}`;
     }
   );
+
+  // Normalize "Compatible machines" section: uppercase bold heading, convert lists to bullets
+  // 1. Single-line list form: "Compatible machines: A, B" -> expand to bullets
+  out = out.replace(/(Compatible machines:\n?)([^\n]+)/i, (m, head, list) => {
+    const items = list
+      .split(/[,;]+/)
+      .map((s: string) => s.trim())
+      .filter((v: string) => Boolean(v));
+    if (items.length === 0) return m;
+    const heading = "**COMPATIBLE MACHINES:**"; // bold uppercase heading
+    const lines = items.map((i: string) => `- ${i}`);
+    return `${heading}\n\n${lines.join("\n")}`;
+  });
+
+  // 2. Multi-line bullet form following heading: transform heading then bullets.
+  out = out.replace(/(^|\n)Compatible machines:\s*\n+/i, (m) => {
+    return `${m.startsWith("\n") ? "\n" : ""}**COMPATIBLE MACHINES:**\n\n`;
+  });
+
+  // Convert lines starting with * or - and not already parameter format after the compatible machines heading into bullets.
+  const lines = out.split(/\n/);
+  let inCompat = false;
+  for (let idx = 0; idx < lines.length; idx++) {
+    const line = lines[idx];
+    if (/^\*\*COMPATIBLE MACHINES:\*\*$/.test(line.trim())) {
+      inCompat = true;
+      continue;
+    }
+    if (inCompat) {
+      if (!line.trim()) {
+        // blank lines allowed; keep and continue
+        continue;
+      }
+      // Stop section if we hit another bold heading or a parameter line not a machine list
+      if (/^\*\*.+\*\*$/.test(line.trim()) || /^[A-Za-z0-9 _/()&%-]+:\s/.test(line)) {
+        if (!/^\s*[-]/.test(line.trim()) && !/^Machine:\s/.test(line.trim())) inCompat = false;
+        continue;
+      }
+      if (/^[-*]\s+/.test(line)) {
+        const name = line.replace(/^[-*]\s+/, "").trim();
+        lines[idx] = `- ${name}`;
+        continue;
+      }
+      // Plain line that does not start with bullet; assume still machine list if simple token
+      if (!/^-/.test(line) && /^[A-Za-z0-9 .()/-]{2,}$/.test(line.trim())) {
+        lines[idx] = `- ${line.trim()}`;
+        continue;
+      }
+      inCompat = false;
+    }
+  }
+  out = lines.join("\n");
+
+  // Ensure pipe tables are surrounded by blank lines so remark-gfm picks them up
+  // We'll scan for contiguous groups of lines that contain pipes and wrap them with blank lines
+  const allLines = out.split("\n");
+  let i = 0;
+  const newLines: string[] = [];
+  while (i < allLines.length) {
+    // gather a potential table block starting at i
+    if (allLines[i].includes("|")) {
+      // peek ahead to collect contiguous pipe-lines
+      const start = i;
+      let end = i;
+      while (end + 1 < allLines.length && allLines[end + 1].includes("|")) end++;
+      const block = allLines.slice(start, end + 1).join("\n");
+      if (looksLikePipeTable(block)) {
+        // ensure there's a blank line before and after
+        if (newLines.length > 0 && newLines[newLines.length - 1].trim() !== "") {
+          newLines.push("");
+        }
+        // remove any accidental leading/trailing backticks around the block lines
+        const cleanedBlock = block
+          .replace(/^\s*```/g, "")
+          .replace(/```\s*$/g, "");
+        newLines.push(cleanedBlock);
+        if (end + 1 < allLines.length && allLines[end + 1].trim() !== "") {
+          newLines.push("");
+        }
+        i = end + 1;
+        continue;
+      } else {
+        // not a table, push current line and continue
+        newLines.push(allLines[i]);
+        i++;
+        continue;
+      }
+    } else {
+      newLines.push(allLines[i]);
+      i++;
+    }
+  }
+
+  out = newLines.join("\n");
+
+  return out;
 }
 
 export default function YantraChatPage() {
@@ -298,9 +445,6 @@ export default function YantraChatPage() {
   const headerSubText =
     theme === "dark" ? "text-slate-400" : "text-slate-500";
 
-  const headerRightText =
-    theme === "dark" ? "text-slate-500" : "text-slate-500";
-
   const cardClass =
     theme === "dark"
       ? "rounded-2xl border border-slate-800/80 bg-slate-900/60 shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
@@ -437,7 +581,7 @@ export default function YantraChatPage() {
                           ),
                         }}
                       >
-                        {boldParameterNames(m.content)}
+                        {boldParameterNames(preprocessAssistant(m.content))}
                       </ReactMarkdown>
                     ) : (
                       m.content
