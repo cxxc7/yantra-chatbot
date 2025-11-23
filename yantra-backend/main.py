@@ -3,8 +3,9 @@ import time
 import re
 from typing import List, Literal, Optional
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from dotenv import load_dotenv
 
@@ -47,6 +48,30 @@ app.add_middleware(
 )
 
 # ==========================
+# Serve brochures (static)
+# ==========================
+BROCHURE_DIR = os.path.join("data", "brochures")
+# Ensure folder exists (server will still run if missing)
+os.makedirs(BROCHURE_DIR, exist_ok=True)
+app.mount("/brochures", StaticFiles(directory=BROCHURE_DIR), name="brochures")
+
+# Build brochure map: normalized key -> filename
+def _build_brochure_map():
+    m = {}
+    if not os.path.isdir(BROCHURE_DIR):
+        return m
+    for fname in os.listdir(BROCHURE_DIR):
+        if not fname.lower().endswith(".pdf"):
+            continue
+        name_no_ext = os.path.splitext(fname)[0]
+        # normalized key: lowercase, remove non-alphanumerics
+        key = re.sub(r"[^a-z0-9]", "", name_no_ext.lower())
+        m[key] = fname
+    return m
+
+BROCHURE_MAP = _build_brochure_map()
+
+# ==========================
 # CHROMA (we pass embeddings manually)
 # ==========================
 chroma_client = chromadb.Client()
@@ -77,7 +102,7 @@ class ChatResponse(BaseModel):
     answer: str
     used_context: List[str]
     from_fallback: bool = False
-
+    brochure_url: Optional[str] = None  # optional brochure link
 
 # ==========================
 # COHERE EMBEDDINGS + RETRY
@@ -133,7 +158,6 @@ def embed_query(text: str) -> List[float]:
         label="user query",
     )
     return embeddings[0]
-
 
 # ==========================
 # LOAD CSV + INDEX (Cohere -> Chroma)
@@ -208,7 +232,6 @@ try:
 except Exception as e:
     print(f"[WARN] Dataset indexing failed on startup: {e}")
 
-
 # ==========================
 # FALLBACK MESSAGE
 # ==========================
@@ -219,7 +242,6 @@ def fallback() -> str:
         f"📞 {SUPPORT_PHONE}\n"
         f"📧 {SUPPORT_EMAIL}"
     )
-
 
 # ==========================
 # SB -> VJ normalizer (internal only)
@@ -235,7 +257,6 @@ def auto_normalize_sb(text: str) -> str:
         return "VJ" + digits
 
     return pattern.sub(repl, text)
-
 
 # ==========================
 # GROQ GENERATION (Llama 3.3) with prefix rule
@@ -341,7 +362,6 @@ USER QUESTION:
         print(f"[GROQ ERROR] {e}")
         return None
 
-
 # ==========================
 # ROUTES
 # ==========================
@@ -351,7 +371,7 @@ def health():
 
 
 @app.post("/api/chat", response_model=ChatResponse)
-def chat(req: ChatRequest):
+def chat(req: ChatRequest, request: Request):
     if not req.messages:
         raise HTTPException(status_code=400, detail="No messages provided")
 
@@ -547,9 +567,39 @@ def chat(req: ChatRequest):
             from_fallback=True,
         )
 
-    # 5) Normal answer
+    # 5) Normal answer — optionally attach brochure_url if relevant
+    brochure_url = None
+
+    # Heuristic: find a breaker token in normalized_user_msg (VJ... optionally HD)
+    m = re.search(r"\b(vj)[\s\-]*?(\d{1,3})(?:\s*(hd|hd$))?\b", normalized_user_msg, re.IGNORECASE)
+    if m:
+        parts = [m.group(1) or "", m.group(2) or ""]
+        if m.group(3):
+            parts.append(m.group(3))
+        key_raw = "".join(parts)
+        key_norm = re.sub(r"[^a-z0-9]", "", key_raw.lower())
+        fname = BROCHURE_MAP.get(key_norm)
+        if not fname:
+            alt_key = re.sub(r"hd$", "", key_norm)
+            fname = BROCHURE_MAP.get(alt_key)
+        if fname:
+            base = str(request.base_url).rstrip("/")
+            brochure_url = f"{base}/brochures/{fname}"
+
+    # Another heuristic: sometimes the model is referenced in the raw Groq answer (e.g., "VJ30 HD")
+    if not brochure_url:
+        m2 = re.search(r"\b(vj)[\s\-]*?(\d{1,3})(?:\s*(hd))?\b", raw, re.IGNORECASE)
+        if m2:
+            key_raw = "".join([m2.group(1) or "", m2.group(2) or ""] + ([m2.group(3)] if m2.group(3) else []))
+            key_norm = re.sub(r"[^a-z0-9]", "", key_raw.lower())
+            fname = BROCHURE_MAP.get(key_norm)
+            if fname:
+                base = str(request.base_url).rstrip("/")
+                brochure_url = f"{base}/brochures/{fname}"
+
     return ChatResponse(
         answer=raw,
         used_context=unique_docs,
         from_fallback=False,
+        brochure_url=brochure_url,
     )
