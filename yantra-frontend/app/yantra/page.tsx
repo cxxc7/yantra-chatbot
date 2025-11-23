@@ -60,6 +60,19 @@ function formatTime(date: Date = new Date()): string {
   });
 }
 
+// helper: bold parameter names in assistant content
+function boldParameterNames(content: string): string {
+  if (!content) return content;
+  // For each line like "Key: value" -> "**Key**: value"
+  // Use multiline regex (handles lines inside run-on text too)
+  return content.replace(
+    /^(\s*)([A-Za-z0-9 _/()&%-]+):\s*(.+)$/gm,
+    (_match, indent, key, rest) => {
+      return `${indent}**${key.trim()}**: ${rest.trim()}`;
+    }
+  );
+}
+
 export default function YantraChatPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -83,6 +96,32 @@ export default function YantraChatPage() {
       setTheme(stored);
     }
   }, []);
+
+  // restore chat history on mount
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const raw = window.localStorage.getItem("yantra_chat_messages_v1");
+      if (raw) {
+        const parsed = JSON.parse(raw) as Message[];
+        if (Array.isArray(parsed)) {
+          setMessages(parsed);
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to restore messages", e);
+    }
+  }, []);
+
+  // persist messages to localStorage whenever messages change
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      window.localStorage.setItem("yantra_chat_messages_v1", JSON.stringify(messages));
+    } catch (e) {
+      console.warn("Failed to save messages", e);
+    }
+  }, [messages]);
 
   // scroll to bottom whenever messages change
   useEffect(() => {
@@ -118,6 +157,11 @@ export default function YantraChatPage() {
     setMessages([]);
     setInput("");
     textareaRef.current?.focus();
+    try {
+      if (typeof window !== "undefined") {
+        window.localStorage.removeItem("yantra_chat_messages_v1");
+      }
+    } catch {}
   };
 
   const handleCopy = (content: string) => {
@@ -223,7 +267,6 @@ export default function YantraChatPage() {
 
   const handleQuickQuestion = (q: string) => {
     if (loading) return;
-    // set input so user can edit quickly, but immediately send and focus
     setInput("");
     void sendMessage(q);
   };
@@ -300,7 +343,6 @@ export default function YantraChatPage() {
           <span className={headerRightText}>
             Backend: {API_BASE_URL}
           </span>
-          {/* Theme toggle */}
           <button
             type="button"
             onClick={toggleTheme}
@@ -308,7 +350,6 @@ export default function YantraChatPage() {
           >
             {theme === "dark" ? "☀️ Light" : "🌙 Dark"}
           </button>
-          {/* Clear chat */}
           <button
             type="button"
             onClick={handleClearChat}
@@ -319,12 +360,12 @@ export default function YantraChatPage() {
         </div>
       </header>
 
-      {/* Main – page height stays stable; chat card has fixed vh height */}
+      {/* Main */}
       <main className="flex-1 flex flex-col max-w-4xl mx-auto w-full p-4">
         <section
           className={`${cardClass} w-full flex flex-col h-[82vh]`}
         >
-          {/* Greeting + quick actions (always visible) */}
+          {/* Greeting + quick actions */}
           <div className={`p-4 border-b ${dividerBorder}`}>
             <p className="text-sm font-medium">
               {greeting}, welcome to YantraLive.
@@ -350,7 +391,7 @@ export default function YantraChatPage() {
             </div>
           </div>
 
-          {/* Messages area – this is the scrollable part inside the fixed card */}
+          {/* Messages area */}
           <div
             ref={messagesContainerRef}
             className="flex-1 min-h-0 overflow-y-auto p-4 space-y-3"
@@ -365,22 +406,10 @@ export default function YantraChatPage() {
             {messages.map((m) => (
               <div
                 key={m.id}
-                className={`flex ${
-                  m.role === "user" ? "justify-end" : "justify-start"
-                }`}
+                className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
               >
-                <div
-                  className={`flex flex-col max-w-[80%] ${
-                    m.role === "user" ? "items-end" : "items-start"
-                  }`}
-                >
-                  <div
-                    className={`rounded-2xl px-3 py-2 text-sm whitespace-pre-wrap ${
-                      m.role === "user"
-                        ? "bg-sky-600 text-white shadow-md"
-                        : assistantBubbleClass
-                    }`}
-                  >
+                <div className={`flex flex-col max-w-[80%] ${m.role === "user" ? "items-end" : "items-start"}`}>
+                  <div className={`rounded-2xl px-3 py-2 text-sm whitespace-pre-wrap ${m.role === "user" ? "bg-sky-600 text-white shadow-md" : assistantBubbleClass}`}>
                     {m.role === "assistant" ? (
                       <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
@@ -412,7 +441,7 @@ export default function YantraChatPage() {
                           ),
                         }}
                       >
-                        {m.content}
+                        {boldParameterNames(m.content)}
                       </ReactMarkdown>
                     ) : (
                       m.content
@@ -421,9 +450,7 @@ export default function YantraChatPage() {
 
                   {/* Timestamp + tiny actions */}
                   <div className="mt-1 flex items-center justify-between w-full gap-2">
-                    <span
-                      className={`text-[10px] ${timestampClass}`}
-                    >
+                    <span className={`text-[10px] ${timestampClass}`}>
                       {m.timestamp}
                     </span>
 
@@ -458,7 +485,6 @@ export default function YantraChatPage() {
               </div>
             ))}
 
-            {/* anchor for scrollIntoView fallback */}
             <div ref={messagesEndRef} />
             {loading && (
               <div className="flex justify-start">
@@ -471,11 +497,7 @@ export default function YantraChatPage() {
 
           {/* Input */}
           <form
-            className={`border-t p-3 flex gap-2 rounded-b-2xl flex-shrink-0 ${
-              dividerBorder
-            } ${
-              theme === "dark" ? "bg-slate-950/70" : "bg-slate-50"
-            }`}
+            className={`border-t p-3 flex gap-2 rounded-b-2xl flex-shrink-0 ${dividerBorder} ${theme === "dark" ? "bg-slate-950/70" : "bg-slate-50"}`}
             onSubmit={(e) => {
               e.preventDefault();
               if (!loading) void handleSend();
