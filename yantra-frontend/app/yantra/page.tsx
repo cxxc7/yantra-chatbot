@@ -22,6 +22,7 @@ interface ChatApiResponse {
   answer: string;
   used_context: string[];
   from_fallback: boolean;
+  brochure_url?: string | null;
 }
 
 type Theme = "dark" | "light";
@@ -62,11 +63,9 @@ function formatTime(date: Date = new Date()): string {
 
 // helper: detect if a block of lines looks like a pipe-table
 function looksLikePipeTable(text: string): boolean {
-  // simple heuristic: at least two lines containing '|' and a header separator line with --- or ---|---
   const lines = text.split("\n").map((l) => l.trim());
   const pipeLines = lines.filter((l) => l.includes("|"));
   if (pipeLines.length < 2) return false;
-  // check for a separator row like |---|---| or ---|--- pattern
   for (const l of lines) {
     if (/^(\|?\s*:?-+:?\s*\|)+\s*:?-+:?\s*\|?\s*$/.test(l)) return true;
     if (/^-{3,}\s*\|/.test(l) || /\|\s*-{3,}/.test(l)) return true;
@@ -78,11 +77,8 @@ function looksLikePipeTable(text: string): boolean {
 function boldParameterNames(content: string): string {
   if (!content) return content;
   const lines = content.split(/\n/).map((line) => {
-    // If the line looks like a table row (contains |) - skip bolding
     if (line.includes("|")) return line;
-    // Skip bullets or numbered lists to avoid breaking markdown list formatting
     if (/^\s*([-*]|\d+\.)\s/.test(line)) return line;
-    // Bold "Key: value" patterns
     return line.replace(
       /^([A-Za-z0-9 _/()&%-]+):\s*(.+)$/g,
       (_m, key, rest) => `**${key.trim()}**: ${rest.trim()}`
@@ -94,28 +90,23 @@ function boldParameterNames(content: string): string {
 // helper: ensure certain headers start on their own line and split concatenated key:value pairs
 function preprocessAssistant(content: string): string {
   if (!content) return content;
-
   let out = content;
 
-  // Remove surrounding fenced code blocks if the whole message is wrapped (common when backend accidentally fences)
-  // But be careful: only strip if it's a single fenced block surrounding entire content.
+  // Remove surrounding fenced code block if entire message is fenced
   const fencedMatch = out.match(/^\s*```(?:\w+)?\n([\s\S]*?)\n```s*$/);
   if (fencedMatch) {
     out = fencedMatch[1];
   }
 
-  // Force newline after these headers if followed by text
   const headerPatterns: RegExp[] = [
     /(Compatible machines:)(?!\n)/i,
     /(Here are the details[^\n]*?breaker model:)(?!\n)/i,
     /(Here are the details[^\n]*?breaker:)(?!\n)/i,
   ];
   headerPatterns.forEach((pat) => {
-    out = out.replace(pat, (_m, g1) => `${g1}\n\n`); // blank line after header for markdown list separation
+    out = out.replace(pat, (_m, g1) => `${g1}\n\n`);
   });
 
-  // If a line contains two key:value pairs back to back, insert newline before second key
-  // Example: "Breaker weight: 180 KG Price: 10000 INR" -> split before "Price:"
   out = out.replace(
     /(:\n[^\n]*?)(\b([A-Za-z][A-Za-z0-9 _/()&%-]{0,40}):\s)/g,
     (m, before, secondKey) => {
@@ -123,25 +114,21 @@ function preprocessAssistant(content: string): string {
     }
   );
 
-  // Normalize "Compatible machines" section: uppercase bold heading, convert lists to bullets
-  // 1. Single-line list form: "Compatible machines: A, B" -> expand to bullets
   out = out.replace(/(Compatible machines:\n?)([^\n]+)/i, (m, head, list) => {
     const items = list
       .split(/[,;]+/)
       .map((s: string) => s.trim())
       .filter((v: string) => Boolean(v));
     if (items.length === 0) return m;
-    const heading = "**COMPATIBLE MACHINES:**"; // bold uppercase heading
+    const heading = "**COMPATIBLE MACHINES:**";
     const lines = items.map((i: string) => `- ${i}`);
     return `${heading}\n\n${lines.join("\n")}`;
   });
 
-  // 2. Multi-line bullet form following heading: transform heading then bullets.
   out = out.replace(/(^|\n)Compatible machines:\s*\n+/i, (m) => {
     return `${m.startsWith("\n") ? "\n" : ""}**COMPATIBLE MACHINES:**\n\n`;
   });
 
-  // Convert lines starting with * or - and not already parameter format after the compatible machines heading into bullets.
   const lines = out.split(/\n/);
   let inCompat = false;
   for (let idx = 0; idx < lines.length; idx++) {
@@ -151,11 +138,7 @@ function preprocessAssistant(content: string): string {
       continue;
     }
     if (inCompat) {
-      if (!line.trim()) {
-        // blank lines allowed; keep and continue
-        continue;
-      }
-      // Stop section if we hit another bold heading or a parameter line not a machine list
+      if (!line.trim()) continue;
       if (/^\*\*.+\*\*$/.test(line.trim()) || /^[A-Za-z0-9 _/()&%-]+:\s/.test(line)) {
         if (!/^\s*[-]/.test(line.trim()) && !/^Machine:\s/.test(line.trim())) inCompat = false;
         continue;
@@ -165,7 +148,6 @@ function preprocessAssistant(content: string): string {
         lines[idx] = `- ${name}`;
         continue;
       }
-      // Plain line that does not start with bullet; assume still machine list if simple token
       if (!/^-/.test(line) && /^[A-Za-z0-9 .()/-]{2,}$/.test(line.trim())) {
         lines[idx] = `- ${line.trim()}`;
         continue;
@@ -175,25 +157,19 @@ function preprocessAssistant(content: string): string {
   }
   out = lines.join("\n");
 
-  // Ensure pipe tables are surrounded by blank lines so remark-gfm picks them up
-  // We'll scan for contiguous groups of lines that contain pipes and wrap them with blank lines
   const allLines = out.split("\n");
   let i = 0;
   const newLines: string[] = [];
   while (i < allLines.length) {
-    // gather a potential table block starting at i
     if (allLines[i].includes("|")) {
-      // peek ahead to collect contiguous pipe-lines
       const start = i;
       let end = i;
       while (end + 1 < allLines.length && allLines[end + 1].includes("|")) end++;
       const block = allLines.slice(start, end + 1).join("\n");
       if (looksLikePipeTable(block)) {
-        // ensure there's a blank line before and after
         if (newLines.length > 0 && newLines[newLines.length - 1].trim() !== "") {
           newLines.push("");
         }
-        // remove any accidental leading/trailing backticks around the block lines
         const cleanedBlock = block
           .replace(/^\s*```/g, "")
           .replace(/```\s*$/g, "");
@@ -204,7 +180,6 @@ function preprocessAssistant(content: string): string {
         i = end + 1;
         continue;
       } else {
-        // not a table, push current line and continue
         newLines.push(allLines[i]);
         i++;
         continue;
@@ -227,6 +202,10 @@ export default function YantraChatPage() {
   const [greeting, setGreeting] = useState("Hello");
   const [theme, setTheme] = useState<Theme>("dark");
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  // brochure modal state
+  const [brochureOpen, setBrochureOpen] = useState(false);
+  const [brochureUrl, setBrochureUrl] = useState<string | null>(null);
 
   // refs to control scrolling
   const messagesContainerRef = useRef<HTMLDivElement | null>(null);
@@ -318,6 +297,17 @@ export default function YantraChatPage() {
     });
   };
 
+  // open brochure modal
+  const openBrochureModal = (url: string) => {
+    setBrochureUrl(url);
+    setBrochureOpen(true);
+  };
+
+  const closeBrochureModal = () => {
+    setBrochureOpen(false);
+    setTimeout(() => setBrochureUrl(null), 200); // tidy up
+  };
+
   const sendMessage = async (text: string) => {
     const trimmed = text.trim();
     if (!trimmed) return;
@@ -379,19 +369,34 @@ export default function YantraChatPage() {
 
       const data: ChatApiResponse = await res.json();
 
-      // Append a short "anything else" line to the same answer
+      // Build assistant content
+      let combined = data.answer.trim();
       const followup = randomFrom(FOLLOW_UP_LINES);
-      const combinedAnswer = `${data.answer.trim()}\n\n_${followup}_`;
+      combined = `${combined}\n\n_${followup}_`;
+
+      // If backend returned a brochure_url, append a small placeholder marker.
+      // We'll not put a direct external link; instead we'll inject a small markdown link
+      // so ReactMarkdown renders an <a> we can intercept (see components.a)
+      if (data.brochure_url) {
+        // We'll append a markdown link text that contains a special prefix so we can intercept.
+        // Use a visible label so users clearly see "📘 Open Brochure" in message.
+        combined = `${combined}\n\n[📘 Open Brochure](${data.brochure_url})`;
+      }
 
       const botMsg: Message = {
         id: crypto.randomUUID(),
         role: "assistant",
-        content: combinedAnswer,
+        content: combined,
         timestamp: formatTime(),
       };
 
       setMessages((prev) => [...prev, botMsg]);
-      textareaRef.current?.focus();
+
+      // If brochure_url present, open modal automatically (optional). You asked for preview modal — we'll open it immediately so user sees it.
+      if (data.brochure_url) {
+        // open after short delay so message renders first
+        setTimeout(() => openBrochureModal(data.brochure_url as string), 300);
+      }
     } catch (err: any) {
       console.error(err);
       const errorMsg: Message = {
@@ -401,9 +406,9 @@ export default function YantraChatPage() {
         timestamp: formatTime(),
       };
       setMessages((prev) => [...prev, errorMsg]);
-      textareaRef.current?.focus();
     } finally {
       setLoading(false);
+      textareaRef.current?.focus();
     }
   };
 
@@ -579,6 +584,34 @@ export default function YantraChatPage() {
                               className="list-disc list-inside space-y-1"
                             />
                           ),
+                          a: (props) => {
+                            // Intercept brochure links (serve from /brochures) and open modal
+                            const href = String(props.href || "");
+                            try {
+                              const u = new URL(href, window.location.href);
+                              if (u.pathname.startsWith("/brochures") || href.includes("/brochures/")) {
+                                return (
+                                  <a
+                                    {...props}
+                                    href="#"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      openBrochureModal(href);
+                                    }}
+                                  >
+                                    {props.children}
+                                  </a>
+                                );
+                              }
+                            } catch {
+                              // fall back to normal behavior
+                            }
+                            return (
+                              <a {...props} target="_blank" rel="noopener noreferrer">
+                                {props.children}
+                              </a>
+                            );
+                          },
                         }}
                       >
                         {boldParameterNames(preprocessAssistant(m.content))}
@@ -662,6 +695,58 @@ export default function YantraChatPage() {
           </form>
         </section>
       </main>
+
+      {/* Brochure modal */}
+      {brochureOpen && brochureUrl && (
+        <div
+          className="fixed inset-0 z-50 flex items-start justify-center p-6"
+          aria-modal="true"
+          role="dialog"
+        >
+          <div className="absolute inset-0 bg-black/60" onClick={closeBrochureModal} />
+          <div className="relative w-full max-w-4xl h-[85vh] bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-2xl z-50">
+            <div className="flex items-center justify-between gap-4 p-3 border-b">
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-semibold">Brochure preview</span>
+                <span className="text-xs text-slate-500">{brochureUrl.split("/").pop()}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <a
+                  href={brochureUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs px-3 py-1 rounded border border-slate-300 hover:bg-slate-100"
+                >
+                  Open in new tab
+                </a>
+                <a
+                  href={brochureUrl}
+                  download
+                  className="text-xs px-3 py-1 rounded border border-slate-300 hover:bg-slate-100"
+                >
+                  Download
+                </a>
+                <button
+                  onClick={closeBrochureModal}
+                  className="text-sm px-3 py-1 rounded border border-red-300 text-red-500 hover:bg-red-50"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+
+            <div className="w-full h-[calc(100%-56px)]">
+              {/* iframe for PDF preview; allow browser to render PDF inline */}
+              <iframe
+                src={brochureUrl}
+                title="Brochure preview"
+                className="w-full h-full"
+                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
