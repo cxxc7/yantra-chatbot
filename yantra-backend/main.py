@@ -1,42 +1,42 @@
 import os
 import time
 import re
-from typing import List, Literal, Optional
+from typing import List, Literal, Optional, Any
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from pydantic import BaseModel
 from dotenv import load_dotenv
 
 import pandas as pd
 import chromadb
-import cohere
-from groq import Groq
+from openai import OpenAI
 
 # ==========================
 # ENVIRONMENT
 # ==========================
 load_dotenv()
 
-COHERE_API_KEY = os.getenv("COHERE_API_KEY")
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+OPENAI_EMBED_MODEL = os.getenv("OPENAI_EMBED_MODEL", "text-embedding-3-small")
+
 SUPPORT_PHONE = os.getenv("YANTRALIVE_SUPPORT_PHONE", "+91-9876543210")
 SUPPORT_EMAIL = os.getenv("YANTRALIVE_SUPPORT_EMAIL", "support@yantralive.com")
 
-if not COHERE_API_KEY:
-    raise RuntimeError("Missing COHERE_API_KEY in .env")
-if not GROQ_API_KEY:
-    raise RuntimeError("Missing GROQ_API_KEY in .env")
+if not OPENAI_API_KEY:
+    raise RuntimeError("Missing OPENAI_API_KEY in .env")
 
-co = cohere.Client(COHERE_API_KEY)
-groq_client = Groq(api_key=GROQ_API_KEY)
+# instantiate new-style client (v1.0+)
+openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
 # ==========================
 # FASTAPI
 # ==========================
 app = FastAPI(
-    title="YantraLive RAG Chatbot (Cohere + Groq)",
+    title="YantraLive RAG Chatbot (OpenAI)",
     version="1.1",
 )
 
@@ -48,14 +48,15 @@ app.add_middleware(
 )
 
 # ==========================
-# Serve brochures (static)
+# Serve brochures (static) + preview wrapper endpoints
 # ==========================
 BROCHURE_DIR = os.path.join("data", "brochures")
-# Ensure folder exists (server will still run if missing)
 os.makedirs(BROCHURE_DIR, exist_ok=True)
-app.mount("/brochures", StaticFiles(directory=BROCHURE_DIR), name="brochures")
 
-# Build brochure map: normalized key -> filename
+# mount static (not used for preview wrapper)
+app.mount("/static_brochures", StaticFiles(directory=BROCHURE_DIR), name="static_brochures")
+
+
 def _build_brochure_map():
     m = {}
     if not os.path.isdir(BROCHURE_DIR):
@@ -64,17 +65,82 @@ def _build_brochure_map():
         if not fname.lower().endswith(".pdf"):
             continue
         name_no_ext = os.path.splitext(fname)[0]
-        # normalized key: lowercase, remove non-alphanumerics
         key = re.sub(r"[^a-z0-9]", "", name_no_ext.lower())
         m[key] = fname
     return m
 
+
 BROCHURE_MAP = _build_brochure_map()
 
+
+@app.get("/api/brochures/list")
+def list_brochures():
+    return JSONResponse(BROCHURE_MAP)
+
+
+@app.get("/brochures/view/{filename}", response_class=HTMLResponse)
+def brochure_view(filename: str):
+    safe = os.path.basename(filename)
+    path = os.path.join(BROCHURE_DIR, safe)
+    if not os.path.isfile(path):
+        raise HTTPException(status_code=404, detail="Brochure not found")
+
+    raw_url = f"/brochures/raw/{safe}"
+
+    html = f"""<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>{safe} — Brochure</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    html,body {{ height:100%; margin:0; background:#f7f7f7; }}
+    .topbar {{ padding:10px; background:#fff; border-bottom:1px solid #eee; display:flex; gap:8px; align-items:center; }}
+    .open-btn {{ padding:6px 10px; border-radius:6px; border:1px solid #ccc; background:#fff; text-decoration:none; color:#111; font-size:13px; }}
+    .iframe-wrap {{ height: calc(100% - 52px); }}
+    iframe {{ width:100%; height:100%; border:none; }}
+    .fallback {{ padding:20px; font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; color:#222; }}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <strong>{safe}</strong>
+    <a class="open-btn" href="{raw_url}" target="_blank" rel="noopener noreferrer">Open in new tab</a>
+    <a class="open-btn" href="{raw_url}" download>Download</a>
+  </div>
+  <div class="iframe-wrap" role="document">
+    <iframe src="{raw_url}#toolbar=1" title="brochure">
+      <div class="fallback">
+        Your browser couldn't display the PDF inline. <a href="{raw_url}" target="_blank" rel="noopener noreferrer">Open brochure</a>
+      </div>
+    </iframe>
+  </div>
+</body>
+</html>"""
+    return HTMLResponse(content=html, status_code=200)
+
+
+@app.get("/brochures/raw/{filename}")
+def brochure_raw(filename: str):
+    safe = os.path.basename(filename)
+    path = os.path.join(BROCHURE_DIR, safe)
+    if not os.path.isfile(path):
+        raise HTTPException(status_code=404, detail="Brochure not found")
+
+    headers = {
+        "Content-Disposition": f'inline; filename="{safe}"',
+        "Accept-Ranges": "bytes",
+        "X-Content-Type-Options": "nosniff",
+        "Cache-Control": "public, max-age=0, must-revalidate",
+    }
+    return FileResponse(path, media_type="application/pdf", headers=headers)
+
+
 # ==========================
-# CHROMA (we pass embeddings manually)
+# CHROMA
 # ==========================
 chroma_client = chromadb.Client()
+
 
 def create_or_get_collection(name: str):
     try:
@@ -82,9 +148,11 @@ def create_or_get_collection(name: str):
     except Exception:
         return chroma_client.get_collection(name=name)
 
+
 end_customer_collection = create_or_get_collection("yantra_end_customer")
 spare_parts_collection = create_or_get_collection("yantra_spare_parts")
 dealer_collection = create_or_get_collection("yantra_dealers")
+
 
 # ==========================
 # Pydantic MODELS
@@ -102,65 +170,75 @@ class ChatResponse(BaseModel):
     answer: str
     used_context: List[str]
     from_fallback: bool = False
-    brochure_url: Optional[str] = None  # optional brochure link
+    brochure_url: Optional[str] = None
+
 
 # ==========================
-# COHERE EMBEDDINGS + RETRY
+# OPENAI EMBEDDINGS + RETRY (v1.0+)
 # ==========================
-EMBED_MODEL = "embed-english-v3.0"
 EMBED_BATCH_SIZE = 64
 EMBED_BATCH_SLEEP_SECONDS = 1.0
 
 
-def _cohere_embed_with_retry(
+def _openai_embed_with_retry(
     texts: List[str],
-    input_type: str,
+    model: str,
     label: str = "",
     max_retries: int = 5,
 ) -> List[List[float]]:
     for attempt in range(max_retries):
         try:
-            resp = co.embed(
-                texts=texts,
-                model=EMBED_MODEL,
-                input_type=input_type,
-            )
-            return resp.embeddings
+            resp = openai_client.embeddings.create(model=model, input=texts)
+            # support both dict-like and object-like responses
+            data = getattr(resp, "data", resp.get("data") if isinstance(resp, dict) else None)
+            if data is None:
+                # try indexing as mapping
+                data = resp["data"]
+            embeddings = []
+            for d in data:
+                # d may be Obj or dict
+                if isinstance(d, dict):
+                    embeddings.append(d.get("embedding"))
+                else:
+                    # object-like
+                    embeddings.append(getattr(d, "embedding", None))
+            return embeddings
         except Exception as e:
             msg = str(e).lower()
             if "rate limit" in msg or "429" in msg:
                 wait = 5 * (attempt + 1)
                 print(
-                    f"[COHERE] Rate limited while embedding {label} "
+                    f"[OPENAI] Rate limited while embedding {label} "
                     f"(attempt {attempt + 1}/{max_retries}). Sleeping {wait}s."
                 )
                 time.sleep(wait)
                 continue
 
-            print(f"[COHERE] Non-rate-limit error while embedding {label}: {e}")
+            print(f"[OPENAI] Non-rate-limit error while embedding {label}: {e}")
             raise
 
-    raise RuntimeError(f"Cohere embed retries exceeded for {label}")
+    raise RuntimeError(f"OpenAI embed retries exceeded for {label}")
 
 
 def embed_documents(texts: List[str]) -> List[List[float]]:
-    return _cohere_embed_with_retry(
+    return _openai_embed_with_retry(
         texts=texts,
-        input_type="search_document",
+        model=OPENAI_EMBED_MODEL,
         label=f"documents batch (size={len(texts)})",
     )
 
 
 def embed_query(text: str) -> List[float]:
-    embeddings = _cohere_embed_with_retry(
+    embeddings = _openai_embed_with_retry(
         texts=[text],
-        input_type="search_query",
+        model=OPENAI_EMBED_MODEL,
         label="user query",
     )
     return embeddings[0]
 
+
 # ==========================
-# LOAD CSV + INDEX (Cohere -> Chroma)
+# LOAD CSV + INDEX (OpenAI -> Chroma)
 # ==========================
 DATA_DIR = "data"
 END_CUSTOMER_FILE = os.path.join(DATA_DIR, "end_customer.csv")
@@ -212,10 +290,10 @@ def load_and_index_one(path: str, collection, tag: str):
             time.sleep(EMBED_BATCH_SLEEP_SECONDS)
 
         print(
-            f"[INDEX] Finished indexing {total_docs} rows for {tag} using Cohere embeddings."
+            f"[INDEX] Finished indexing {total_docs} rows for {tag} using OpenAI embeddings."
         )
     except Exception as e:
-        print(f"[WARN] Failed to embed/index dataset {tag} with Cohere: {e}")
+        print(f"[WARN] Failed to embed/index dataset {tag} with OpenAI: {e}")
         print("[WARN] Starting server without this vector index; chat may fallback.")
 
 
@@ -232,6 +310,7 @@ try:
 except Exception as e:
     print(f"[WARN] Dataset indexing failed on startup: {e}")
 
+
 # ==========================
 # FALLBACK MESSAGE
 # ==========================
@@ -242,6 +321,7 @@ def fallback() -> str:
         f"📞 {SUPPORT_PHONE}\n"
         f"📧 {SUPPORT_EMAIL}"
     )
+
 
 # ==========================
 # SB -> VJ normalizer (internal only)
@@ -258,10 +338,33 @@ def auto_normalize_sb(text: str) -> str:
 
     return pattern.sub(repl, text)
 
+
 # ==========================
-# GROQ GENERATION (Llama 3.3) with prefix rule
+# GENERATION (OpenAI) with prefix rule
 # ==========================
-GROQ_MODEL_ID = "llama-3.3-70b-versatile"
+# Keep your system prompt exactly as provided.
+GROQ_MODEL_ID = "llama-3.3-70b-versatile"  # kept for parity only
+
+def _extract_choice_message(choice: Any) -> str:
+    """
+    Robustly extract message content from a choice entry returned by the client.
+    Handles dict-like or object-like shapes.
+    """
+    msg = None
+    if isinstance(choice, dict):
+        msg = choice.get("message") or choice.get("text") or choice.get("content")
+    else:
+        msg = getattr(choice, "message", None) or getattr(choice, "text", None) or getattr(choice, "content", None)
+
+    # msg may itself be a dict with 'content' or a string; handle both
+    if isinstance(msg, dict):
+        # older-style chat choice: {'role': 'assistant', 'content': '...'}
+        # or {'content': '...'}
+        return msg.get("content") or msg.get("text") or ""
+    if isinstance(msg, str):
+        return msg
+    # object-like message with .content
+    return getattr(msg, "content", "") if msg is not None else ""
 
 
 def generate_with_groq(context: str, user_question: str) -> Optional[str]:
@@ -348,19 +451,34 @@ USER QUESTION:
 """
 
     try:
-        resp = groq_client.chat.completions.create(
-            model=GROQ_MODEL_ID,
-            messages=[
-                {"role": "system", "content": full_system_prompt},
-                {"role": "user", "content": user_content},
-            ],
+        messages = [
+            {"role": "system", "content": full_system_prompt},
+            {"role": "user", "content": user_content},
+        ]
+
+        resp = openai_client.chat.completions.create(
+            model=OPENAI_MODEL,
+            messages=messages,
             temperature=0.0,
+            max_tokens=1500,
         )
-        answer = resp.choices[0].message.content
+
+        choice = None
+        # robust extraction of first choice
+        choices = getattr(resp, "choices", resp.get("choices") if isinstance(resp, dict) else None)
+        if choices is None:
+            choices = resp["choices"]
+        if isinstance(choices, (list, tuple)) and len(choices) > 0:
+            choice = choices[0]
+        else:
+            choice = choices
+
+        answer = _extract_choice_message(choice)
         return answer
     except Exception as e:
-        print(f"[GROQ ERROR] {e}")
+        print(f"[OPENAI ERROR] {e}")
         return None
+
 
 # ==========================
 # ROUTES
@@ -384,74 +502,48 @@ def chat(req: ChatRequest, request: Request):
     else:
         print(f"[CHAT] Normalized User message: {normalized_user_msg!r}")
 
-    # --- Helper: simple brand-only detector --------------------------------
     def is_brand_only(text: str) -> bool:
         text = (text or "").strip()
         if not text:
             return False
-        # If the text contains any digit, treat not-brand-only (models often contain digits)
         if re.search(r"\d", text):
             return False
-        # If the user typed more than 3 words assume it's not a single brand
         if len(text.split()) > 3:
             return False
-        # OK: short, no digits — treat as brand-only
         return True
-    # -----------------------------------------------------------------------
 
-    # Helper: decide if a value is likely a machine model (filter out tonnage, breaker SKUs, brand names, etc)
     def is_likely_model_value(val: str, brand: str) -> bool:
         if not val:
             return False
         v = val.strip()
         low = v.lower()
-
-        # Reject pure brand tokens (like "HYUNDAI") — we want model names, not brand label
         if low == brand.lower():
             return False
-
-        # Reject tonnage / ranges (e.g., "16-25 Ton", "7-10 Ton", "30-45 Ton")
         if re.search(r"\bton\b", low) or re.search(r"\btons\b", low) or re.search(r"\btonnage\b", low):
             return False
         if re.search(r"^\d+(\s*-\s*\d+)?\s*(t|ton|tons)?$", low):
             return False
-
-        # Reject obvious breaker SKUs like VJ*, SB* (we only want machine models)
         if re.search(r"\b(vj|sb)\s*\d+", v, re.IGNORECASE) or re.search(r"\bvj\b", v, re.IGNORECASE):
             return False
-
-        # Exclude rows that look like capacity classes or short labels (e.g., '7-10 Ton', 'Loader')
         if len(v) <= 3 and v.isalpha():
             return False
-
-        # Exclude if contains words like 'SMART' alone or too-generic tokens (but allow if combined with model)
         if re.fullmatch(r"[A-Za-z\s]+SMART", v, re.IGNORECASE):
-            # likely a variant label, not the model primary name -> skip
             return False
-
-        # Avoid ridiculously long cells that are unlikely a model name
         if len(v) > 80:
             return False
-
-        # If the value contains the brand name or brand abbreviation, it's likely a machine model mention
         if brand.lower() in low:
             return True
-
-        # Otherwise, heuristic: model strings often have letters + digits or hyphen (e.g., R215LC-7, R230)
         if re.search(r"[A-Za-z]+\d", v) or re.search(r"\d+[A-Za-z]+", v) or "-" in v:
             return True
-
-        # Also accept short alphanumeric tokens like "R85", "HX225SL"
         if re.fullmatch(r"[A-Za-z0-9\-_/]+", v) and (re.search(r"[A-Za-z]", v) and re.search(r"\d", v)):
             return True
-
         return False
 
-    # 1) Embed the (normalized) query with Cohere
+    # 1) Embed the (normalized) query with OpenAI
     try:
         query_vec = embed_query(normalized_user_msg)
     except Exception as e:
-        print(f"[ERROR] Failed to embed user query with Cohere: {e}")
+        print(f"[ERROR] Failed to embed user query with OpenAI: {e}")
         return ChatResponse(
             answer=fallback(),
             used_context=[],
@@ -487,45 +579,32 @@ def chat(req: ChatRequest, request: Request):
     unique_docs = list(dict.fromkeys(docs))
     context = "\n\n---\n\n".join(unique_docs)
 
-    # If the query looks like a brand only -> return only models (no other text)
     if is_brand_only(normalized_user_msg):
         brand = normalized_user_msg.strip()
         candidate_models: List[str] = []
-
-        # Attempt 1: prefer explicit "model" or "machine" fields in the doc (key:value pairs)
         for d in unique_docs:
-            # find all key: value pairs separated by ' | ' or line breaks
             pairs = re.findall(r"([A-Za-z0-9 _/()%-]+):\s*([^|\n]+)", d)
             for (k, v) in pairs:
                 k_clean = k.strip().lower()
                 val = v.strip()
-                # If key looks like model/machine/model name, prioritize it
                 if "model" in k_clean or "machine" in k_clean or "machine model" in k_clean:
                     if is_likely_model_value(val, brand):
                         candidate_models.append(val)
-
-        # Attempt 2: also scan whole doc text for tokens that look like machine models (fallback)
         if not candidate_models:
             for d in unique_docs:
-                # split by separators and pipes and commas
                 parts = re.split(r"[|,/\\\n]+", d)
                 for p in parts:
                     token = p.strip()
-                    # avoid adding the brand label or short generic tokens
                     if not token:
                         continue
                     if is_likely_model_value(token, brand):
                         candidate_models.append(token)
-
-        # dedupe preserving order, and normalize model strings (strip extra whitespace)
         seen = set()
         models = []
         for m in candidate_models:
             m_norm = m.strip()
-            # remove trailing/leading punctuation like ':' or '-'
             m_norm = re.sub(r"^[\W_]+|[\W_]+$", "", m_norm)
             if m_norm and m_norm not in seen:
-                # final safeguard: skip if it looks like capacity / tonnage or contains 'ton'
                 if re.search(r"\bton\b", m_norm.lower()):
                     continue
                 if re.search(r"^(vj|sb)\b", m_norm, re.IGNORECASE):
@@ -534,7 +613,6 @@ def chat(req: ChatRequest, request: Request):
                     continue
                 seen.add(m_norm)
                 models.append(m_norm)
-
         if models:
             md_lines = [f"**Models for {brand}:**"]
             for m in models:
@@ -546,9 +624,7 @@ def chat(req: ChatRequest, request: Request):
                 from_fallback=False,
             )
 
-        # if no models found from docs, fall back to Groq (below) so normal flow applies
-
-    # 3) Ask Groq to answer using this context
+    # 3) Ask OpenAI to answer using this context
     raw = generate_with_groq(context=context, user_question=normalized_user_msg)
     if raw is None:
         return ChatResponse(
@@ -559,7 +635,7 @@ def chat(req: ChatRequest, request: Request):
 
     raw = raw.strip()
 
-    # 4) If Groq says UNSURE_FROM_DATA → human fallback
+    # 4) If model says UNSURE_FROM_DATA → human fallback
     if "UNSURE_FROM_DATA" in raw:
         return ChatResponse(
             answer=fallback(),
@@ -570,7 +646,6 @@ def chat(req: ChatRequest, request: Request):
     # 5) Normal answer — optionally attach brochure_url if relevant
     brochure_url = None
 
-    # Heuristic: find a breaker token in normalized_user_msg (VJ... optionally HD)
     m = re.search(r"\b(vj)[\s\-]*?(\d{1,3})(?:\s*(hd|hd$))?\b", normalized_user_msg, re.IGNORECASE)
     if m:
         parts = [m.group(1) or "", m.group(2) or ""]
@@ -584,9 +659,8 @@ def chat(req: ChatRequest, request: Request):
             fname = BROCHURE_MAP.get(alt_key)
         if fname:
             base = str(request.base_url).rstrip("/")
-            brochure_url = f"{base}/brochures/{fname}"
+            brochure_url = f"{base}/brochures/view/{fname}"
 
-    # Another heuristic: sometimes the model is referenced in the raw Groq answer (e.g., "VJ30 HD")
     if not brochure_url:
         m2 = re.search(r"\b(vj)[\s\-]*?(\d{1,3})(?:\s*(hd))?\b", raw, re.IGNORECASE)
         if m2:
@@ -595,7 +669,7 @@ def chat(req: ChatRequest, request: Request):
             fname = BROCHURE_MAP.get(key_norm)
             if fname:
                 base = str(request.base_url).rstrip("/")
-                brochure_url = f"{base}/brochures/{fname}"
+                brochure_url = f"{base}/brochures/view/{fname}"
 
     return ChatResponse(
         answer=raw,

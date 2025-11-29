@@ -93,6 +93,7 @@ function preprocessAssistant(content: string): string {
   let out = content;
 
   // Remove surrounding fenced code block if entire message is fenced
+  // (original used [\s\S] and allowed for fenced blocks; keep semantics)
   const fencedMatch = out.match(/^\s*```(?:\w+)?\n([\s\S]*?)\n```s*$/);
   if (fencedMatch) {
     out = fencedMatch[1];
@@ -297,10 +298,24 @@ export default function YantraChatPage() {
     });
   };
 
-  // open brochure modal
-  const openBrochureModal = (url: string) => {
-    setBrochureUrl(url);
-    setBrochureOpen(true);
+  // open brochure modal (normalize href first)
+  const openBrochureModal = (href: string) => {
+    try {
+      const u = new URL(href, window.location.href);
+      // If it's the view path we received earlier, we can use as-is.
+      // Append toolbar flag if previewing PDF directly (helps some browsers)
+      let final = u.href;
+      if (u.pathname.startsWith("/brochures/view/") || u.pathname.startsWith("/brochures/raw/") || u.pathname.includes("/brochures/")) {
+        // if fragment not present, add toolbar hint
+        if (!final.includes("#")) final = `${final}#toolbar=1`;
+      }
+      setBrochureUrl(final);
+      setBrochureOpen(true);
+    } catch (e) {
+      // fallback: set raw string
+      setBrochureUrl(href);
+      setBrochureOpen(true);
+    }
   };
 
   const closeBrochureModal = () => {
@@ -378,8 +393,7 @@ export default function YantraChatPage() {
       // We'll not put a direct external link; instead we'll inject a small markdown link
       // so ReactMarkdown renders an <a> we can intercept (see components.a)
       if (data.brochure_url) {
-        // We'll append a markdown link text that contains a special prefix so we can intercept.
-        // Use a visible label so users clearly see "📘 Open Brochure" in message.
+        // Ensure we append the absolute or relative preview URL as returned
         combined = `${combined}\n\n[📘 Open Brochure](${data.brochure_url})`;
       }
 
@@ -392,9 +406,9 @@ export default function YantraChatPage() {
 
       setMessages((prev) => [...prev, botMsg]);
 
-      // If brochure_url present, open modal automatically (optional). You asked for preview modal — we'll open it immediately so user sees it.
+      // If brochure_url present, open modal automatically
       if (data.brochure_url) {
-        // open after short delay so message renders first
+        // normalize and open after short delay so message renders first
         setTimeout(() => openBrochureModal(data.brochure_url as string), 300);
       }
     } catch (err: any) {
@@ -596,7 +610,8 @@ export default function YantraChatPage() {
                                     href="#"
                                     onClick={(e) => {
                                       e.preventDefault();
-                                      openBrochureModal(href);
+                                      // normalize and open modal
+                                      openBrochureModal(u.href);
                                     }}
                                   >
                                     {props.children}
@@ -708,7 +723,7 @@ export default function YantraChatPage() {
             <div className="flex items-center justify-between gap-4 p-3 border-b">
               <div className="flex items-center gap-3">
                 <span className="text-sm font-semibold">Brochure preview</span>
-                <span className="text-xs text-slate-500">{brochureUrl.split("/").pop()}</span>
+                <span className="text-xs text-slate-500">{decodeURIComponent(brochureUrl.split("/").pop() || "")}</span>
               </div>
               <div className="flex items-center gap-2">
                 <a
@@ -737,6 +752,7 @@ export default function YantraChatPage() {
 
             <div className="w-full h-[calc(100%-56px)]">
               {/* iframe for PDF preview; allow browser to render PDF inline */}
+              {/* We trust the server's /brochures/view/<file> wrapper to embed PDF safely. */}
               <iframe
                 src={brochureUrl}
                 title="Brochure preview"
