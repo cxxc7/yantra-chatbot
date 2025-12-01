@@ -61,7 +61,6 @@ function formatTime(date: Date = new Date()): string {
   });
 }
 
-// helper: detect if a block of lines looks like a pipe-table
 function looksLikePipeTable(text: string): boolean {
   const lines = text.split("\n").map((l) => l.trim());
   const pipeLines = lines.filter((l) => l.includes("|"));
@@ -73,7 +72,6 @@ function looksLikePipeTable(text: string): boolean {
   return false;
 }
 
-// helper: bold parameter names in assistant content (skip table rows)
 function boldParameterNames(content: string): string {
   if (!content) return content;
   const lines = content.split(/\n/).map((line) => {
@@ -87,13 +85,10 @@ function boldParameterNames(content: string): string {
   return lines.join("\n");
 }
 
-// helper: ensure certain headers start on their own line and split concatenated key:value pairs
 function preprocessAssistant(content: string): string {
   if (!content) return content;
   let out = content;
 
-  // Remove surrounding fenced code block if entire message is fenced
-  // (original used [\s\S] and allowed for fenced blocks; keep semantics)
   const fencedMatch = out.match(/^\s*```(?:\w+)?\n([\s\S]*?)\n```s*$/);
   if (fencedMatch) {
     out = fencedMatch[1];
@@ -224,7 +219,6 @@ export default function YantraChatPage() {
     }
   }, []);
 
-  // restore chat history on mount
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
@@ -240,7 +234,6 @@ export default function YantraChatPage() {
     }
   }, []);
 
-  // persist messages to localStorage whenever messages change
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
@@ -250,7 +243,6 @@ export default function YantraChatPage() {
     }
   }, [messages]);
 
-  // scroll to bottom whenever messages change
   useEffect(() => {
     if (messagesContainerRef.current) {
       setTimeout(() => {
@@ -302,17 +294,13 @@ export default function YantraChatPage() {
   const openBrochureModal = (href: string) => {
     try {
       const u = new URL(href, window.location.href);
-      // If it's the view path we received earlier, we can use as-is.
-      // Append toolbar flag if previewing PDF directly (helps some browsers)
       let final = u.href;
       if (u.pathname.startsWith("/brochures/view/") || u.pathname.startsWith("/brochures/raw/") || u.pathname.includes("/brochures/")) {
-        // if fragment not present, add toolbar hint
         if (!final.includes("#")) final = `${final}#toolbar=1`;
       }
       setBrochureUrl(final);
       setBrochureOpen(true);
     } catch (e) {
-      // fallback: set raw string
       setBrochureUrl(href);
       setBrochureOpen(true);
     }
@@ -320,7 +308,7 @@ export default function YantraChatPage() {
 
   const closeBrochureModal = () => {
     setBrochureOpen(false);
-    setTimeout(() => setBrochureUrl(null), 200); // tidy up
+    setTimeout(() => setBrochureUrl(null), 200);
   };
 
   const sendMessage = async (text: string) => {
@@ -330,7 +318,6 @@ export default function YantraChatPage() {
     const now = formatTime();
     const lc = trimmed.toLowerCase();
 
-    // Only say "You're welcome" when user explicitly thanks
     if (lc.includes("thank you") || lc.includes("thanks")) {
       const userMsg: Message = {
         id: crypto.randomUUID(),
@@ -384,16 +371,12 @@ export default function YantraChatPage() {
 
       const data: ChatApiResponse = await res.json();
 
-      // Build assistant content
       let combined = data.answer.trim();
       const followup = randomFrom(FOLLOW_UP_LINES);
       combined = `${combined}\n\n_${followup}_`;
 
-      // If backend returned a brochure_url, append a small placeholder marker.
-      // We'll not put a direct external link; instead we'll inject a small markdown link
-      // so ReactMarkdown renders an <a> we can intercept (see components.a)
+      // Append the brochure link in the message, but DO NOT auto-open the modal.
       if (data.brochure_url) {
-        // Ensure we append the absolute or relative preview URL as returned
         combined = `${combined}\n\n[📘 Open Brochure](${data.brochure_url})`;
       }
 
@@ -406,11 +389,9 @@ export default function YantraChatPage() {
 
       setMessages((prev) => [...prev, botMsg]);
 
-      // If brochure_url present, open modal automatically
-      if (data.brochure_url) {
-        // normalize and open after short delay so message renders first
-        setTimeout(() => openBrochureModal(data.brochure_url as string), 300);
-      }
+      // NOTE: removed automatic open. The modal opens only when user clicks the link.
+      // if (data.brochure_url) { setTimeout(() => openBrochureModal(data.brochure_url as string), 300); }
+
     } catch (err: any) {
       console.error(err);
       const errorMsg: Message = {
@@ -535,7 +516,6 @@ export default function YantraChatPage() {
                 : "How can I help you today? Here are some common questions:"}
             </p>
 
-            {/* FAQ quick questions */}
             <div className="mt-3 flex flex-wrap gap-2">
               {quickActions.map((q) => (
                 <button
@@ -599,7 +579,6 @@ export default function YantraChatPage() {
                             />
                           ),
                           a: (props) => {
-                            // Intercept brochure links (serve from /brochures) and open modal
                             const href = String(props.href || "");
                             try {
                               const u = new URL(href, window.location.href);
@@ -610,8 +589,7 @@ export default function YantraChatPage() {
                                     href="#"
                                     onClick={(e) => {
                                       e.preventDefault();
-                                      // normalize and open modal
-                                      openBrochureModal(u.href);
+                                      openBrochureModal(href);
                                     }}
                                   >
                                     {props.children}
@@ -619,7 +597,7 @@ export default function YantraChatPage() {
                                 );
                               }
                             } catch {
-                              // fall back to normal behavior
+                              // fall back
                             }
                             return (
                               <a {...props} target="_blank" rel="noopener noreferrer">
@@ -636,7 +614,6 @@ export default function YantraChatPage() {
                     )}
                   </div>
 
-                  {/* Timestamp + tiny actions */}
                   <div className="mt-1 flex items-center justify-between w-full gap-2">
                     <span className={`text-[10px] ${timestampClass}`}>
                       {m.timestamp}
@@ -751,8 +728,6 @@ export default function YantraChatPage() {
             </div>
 
             <div className="w-full h-[calc(100%-56px)]">
-              {/* iframe for PDF preview; allow browser to render PDF inline */}
-              {/* We trust the server's /brochures/view/<file> wrapper to embed PDF safely. */}
               <iframe
                 src={brochureUrl}
                 title="Brochure preview"
